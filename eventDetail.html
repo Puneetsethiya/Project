@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details</title>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+.content {
+    margin-top: 3rem !important;
+    padding-top: 0 !important;
+}
+
+.event-container {
+    max-width: 1000px;
+    width: 100%;
+    margin:0 auto; 
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1), 0 0 40px rgba(255, 0, 255, 0.1);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    letter-spacing: 0.1rem;
+}
+
+.event-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+span{
+    text-align: start;
+}
+.event-header h1 {
+    font-size: 2.8rem;
+    margin-bottom: 0.8rem;
+    background: linear-gradient(90deg, #00ffff, #ff00ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4), 0 0 16px rgba(255, 0, 255, 0.3);
+    letter-spacing: 0.15rem;
+}
+
+.event-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.9;
+    letter-spacing: 0.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.info-item i {
+    font-size: 1.3rem;
+    color: #66ffe0;
+}
+
+.rules-section, .coordinators-section {
+    margin-bottom: 2rem;
+}
+
+.rules-section h2, .coordinators-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(90deg, #00ffff, #ff00ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.4), 0 0 16px rgba(255, 0, 255, 0.3);
+    letter-spacing: 0.1rem;
+}
+
+.rules-section ul, .coordinators-section ul {
+    list-style-type: none;
+    padding-left: 1rem;
+    line-height: 1.9;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.1rem;
+    text-align: left;
+}
+
+.rules-section li, .coordinators-section li {
+    margin-bottom: 1rem;
+    position: relative;
+    padding-left: 2.2rem;
+    line-height: 1.9;
+}
+
+
+.rules-section li::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    top: 0.15rem;
+    color: #66ffe0;
+    font-size: 1.6rem;
+    line-height: 1;
+}
+.coordinators-section li::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    top: 0.15rem;
+    color: #cc66ff;
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.registration-button {
+    text-align: center;
+    margin-top: 2.5rem;
+    letter-spacing: 0.1rem;
+}
+
+.register-btn, .back-btn {
+    padding: 0.7rem 1.5rem;
+    border: 2px solid rgba(0, 255, 255, 0.4);
+    border-radius: 2rem;
+    font-size: 1rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.15), 0 0 20px rgba(255, 0, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: inline-block;
+    letter-spacing: 0.1rem;
+}
+
+.register-btn:hover, .back-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), 0 0 35px rgba(255, 0, 255, 0.3);
+    border-color: #ffffff;
+}
+
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    line-height: 1.9;
+    font-size: 1.1rem;
+    letter-spacing: 0.1rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.error-message h2 {
+    color: #ff6b6b;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    letter-spacing: 0.1rem;
+    line-height: 1.9;
+}
+
+
+@media (max-width: 768px) {
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+  }
+
+  .event-details {
+    margin-top: 1rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: 380px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+  }
+  main{
+    padding: 1rem;
+  
+  }
+  span{
+    text-align: start;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+
+    .event-header h1 {
+        font-size: 1.8rem;
+        letter-spacing: 0.05rem;
+    }
+
+    .event-container {
+        padding: 1.2rem;
+    }
+
+    .event-info {
+        grid-template-columns: 1fr;
+        font-size: 1rem;
+        gap: 1rem;
+    }
+
+    .rules-section ul, .coordinators-section ul {
+        font-size: 1rem;
+    }
+
+    .rules-section li::before,
+    .coordinators-section li::before {
+        font-size: 1.4rem;
+        top: 0.25rem;
+    }
+
+    .register-btn, .back-btn {
+        font-size: 0.9rem;
+        padding: 0.6rem 1.2rem;
+    }
+    
+
+}
+
+  </style>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+<div class="page-wrapper">
+  <header>
+    <div class="hamburger" id="hamburger">
+      <div></div><div></div><div></div>
+    </div>
+    <nav id="navbar">
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="registration.html">Registration</a>
+      <a href="about us.html">About Us</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="contact us.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <div id="eventDetailsContainer"></div>
+  </main>
+
+  <footer>
+    <div class="footer-left">
+      <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
+      <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
+      <a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
+    </div>
+    <div class="footer-right">
+      <iframe src="https://maps.google.com/maps?q=bmsccm&output=embed" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </footer>
+  <div class="footer-credit">
+    2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
+  </div>
+</div>
+
+<script>
+  const eventSummaries = {
+    1: {
+        title: "Bulls and Bears - Mock Stock",
+        registration: "Rs.500/-",
+        prize: "₹2,000 + Trophy",
+        participants: "2 Participants per Team",
+        rules: [
+            "Teams get a Demat account with equal balance to trade (buy/sell) shares in specified stock exchanges",
+            "Participants can buy/sell shares any number of times",
+            "Team with highest profit wins",
+            "College ID card is mandatory",
+            "Judges decision is final and binding"
+        ],
+        dateTime: "4th April 2025 |<br> 9:30 AM - 12:30 PM",
+        venue: "Ground Floor Lab & Room No 101, BMSCCM",
+        coordinators: ["Nikita - 9986398863", "Sai Pranav - 9071273230"]
+    },
+    2: {
+        title: "Nautanki - Mime",
+        registration: "Rs.1,000/-",
+        prize: "Rs.5,000 + Trophy",
+        participants: "8 to 12 Participants per Team",
+        timeLimit: "6+2 minutes",
+        rules: [
+            "Mime makeup, costume, and gloves mandatory",
+            "Music must not have lyrics or narration",
+            "Judged on theme and overall act",
+            "Props prohibited",
+            "College ID required",
+            "Judges' decision is final"
+        ],
+        dateTime: "4th April 2025 |<br> 10:00 AM - 12:00 PM",
+        venue: "Seminar Hall, BMSCCM",
+        coordinators: ["Rachana - 8197547148)", "Janya - 8197187615"]
+    },
+    3: {
+        title: "Marketing Event - Big Pitcher",
+        registration: "Rs.500/-",
+        prize: "₹2,000 + Trophy",
+        participants: "2 Participants per Team",
+        rules: [
+            "Round 1 will be \"Guess the Logo Challenge\"",
+            "Round 2 will be Qualified participants combine two different products/product categories (given by judges), devise marketing strategies, and sell the product",
+            "Vulgarity or obscenity leads to disqualification",
+            "Topics announced on the day",
+            "College ID required",
+            "Judges' decision is final"
+        ],
+        dateTime: "4th April 2025 |<br>2:30 PM - 4:00 PM",
+        venue: "Room No 202, BMSCCM",
+        coordinators: ["Abhyudaya - 9353694887", "Sai Inchara - 8147763010"]
+    },
+    4: {
+        title: "Battle of Words - Debate (English)",
+        registration: "Rs.500/-",
+        prize: "₹2,000 + Trophy",
+        participants: "Individual event",
+        timeLimit: "2+1 minutes",
+        rules: [
+            "Two rounds: Round 1 (For & Against), Round 2 (Rebuttal)",
+            "Topic shared a day before; mentioning for/against given topic",
+            "Judged on communication, content, confidence, voice modulation, rebuttal",
+            "Unparliamentary language leads to disqualification",
+            "Dress code: Business Formals",
+            "College ID required",
+            "Judges' decision is final"
+        ],
+        dateTime: "4th April 2025 |<br> 11:00 AM - 12:00 PM",
+        venue: "Room No 304, BMSCCM",
+        coordinators: ["Charuvee - 9788656999", "Anala - 9606189673"]
+    },
+    5: {
+        title: "Maathu Manthana - Kannada Debate",
+        registration: "Rs.500/-",
+        prize: "Rs.2,000 + Trophy",
+        participants: "two Participants per College One for and One against the topic",
+        timeLimit: "Maximum of 4 minutes for speech + 1 minute for rebuttal",
+        topic: "are Students distracted from education due to social media?",
+        rules: [
+            "Judges' decision is final and binding"
+        ],
+        dateTime: "4th April 2025,<br>11:00 AM - 12:00 PM",
+        venue: "Room No.301, BMSCCM",
+        coordinators: ["Manya - 8431138735", "Pramati - 6361143590"]
+    },
+    6: {
+        title: "Chanakya - Elite Executives",
+        registration: "Rs.500/-",
+        prize: "Rs.3,000 + Trophy",
+        participants: "3 members (CEO, CFO, CMO roles)",
+        rules: [
+            "Teams undergo multiple rounds before the winner is decided",
+            "Participants may carry their own laptops",
+            "College ID card is mandatory",
+            "Judges' decision is final and binding"
+        ],
+        dateTime: "4th April 2025,<br> 12:00 PM - 2:00 PM",
+        venue: "Room No.201, BMSCCM",
+        coordinators: ["Sandeep - 9740059993", "Rishi Vedanth - 6366381561"]
+    },
+    7: {
+        title: "Chitratmak - Pictionary (Hindi)",
+        registration: "Rs.500/-",
+        prize: "Rs.2,000 + Trophy",
+        participants: "2 members",
+        rules: [
+            "One player draws clues for teammates to guess words or phrases from chits",
+            "No letters, numbers, spoken words, or gestures allowed for clues",
+            "College ID card is mandatory",
+            "Judges' decision is final and binding"
+        ],
+        dateTime: "4th April 2025, <br>12:30 PM - 1:30 PM",
+        venue: "Room No.203, BMSCCM",
+        coordinators: ["Gowrav - 9538585142", "Heer - 9380785922"]
+    },
+    8: {
+        title: "Chucklesome - Mad Ads",
+        registration: "Rs.1,000/-",
+        prize: "Rs.5,000 + Trophy",
+        participants: "5-6 members",
+        timeLimit: "Each team gets 3+1 minutes",
+        rules: [
+            "Product or item will be given on spot; teams get 20 minutes to prepare a script and act on stage",
+            "Creativity and content are judged; vulgarity leads to disqualification",
+            "Languages allowed: Kannada, Hindi, English",
+            "College ID card is mandatory",
+            "Judges' decision is final and binding"
+        ],
+        dateTime: "4th April 2025,<br>12:30 PM - 2:30 PM",
+        venue: "Seminar Hall, BMSCCM",
+        coordinators: ["Rohith R - 9148852356", "Charulatha - 7019951982"]
+    },
+    9: {
+        title: "Codex Cronicals - The Quest for Lost Cipher",
+        registration: "Rs.500/-",
+        prize: "Rs.3,000 + Trophy",
+        participants: "3 members",
+        timeLimit: "2-3 hours",
+        rules: [
+            "No Internet or electronics allowed",
+            "Teams collaborate to solve puzzles and challenges to unlock secrets",
+            "College ID card is mandatory",
+            "Judges' decision is final and binding"
+        ],
+        dateTime: "4th April 2025,<br> 2:00 PM - 4:00 PM",
+        venue: "Ground floor lab, BMSCCM",
+        coordinators: ["Kathireshan - 9449407372", "Pradeep - 8197370851"]
+    },
+    10: {
+        title: "Art Beat - Pencil Sketching",
+        registration: "Rs.500/-",
+        prize: "Rs.2,000 + Trophy",
+        participants: "Individual event",
+        timeLimit: "1 hour (50+10 minutes)",
+        rules: [
+            "Participants will be provided with an A4 white sheet",
+            "Finished art must not contain offensive or disgraceful material",
+            "College ID card is mandatory",
+            "Judges' decision is final and binding"
+        ],
+        dateTime: "4th April 2025, <br>1:00 PM - 2:00 PM",
+        venue: "Room No.302, BMSCCM",
+        coordinators: ["Kanishka Priya - 9901472913", "Mourya - 9482161446"]
+    },
+    11: {
+        title: "Hog-A-Thon",
+        registration: "Rs.500/-",
+        prize: "Rs.2,000 + Trophy",
+        participants: "Individual event",
+        rules: [
+            "Participants must eat only vegetarian food items provided in the challenge",
+            "Misconduct leads to disqualification",
+            "College ID card is mandatory",
+            "Judges' decision is final and binding"
+        ],
+        dateTime: "4th April 2025,<br> 1:00 PM - 2:00 PM",
+        venue: "Terrace, BMSCCM",
+        coordinators: ["Vishwas - 6364012350", "Madhumitha - 6362092344"]
+    },
+    12: {
+        title: "BGMI - E Sports",
+        registration: "Rs.1000/-",
+        prize: "₹5,000 + Trophy",
+        participants: "4 Participants per Team",
+        rules: [
+            "No hacks allowed",
+            "College ID card is mandatory",
+            "Judges decision is final and binding"
+        ],
+        dateTime: "4th April 2025 |<br> 2:00 PM - 4:00 PM",
+        venue: "Room No 101, BMSCCM",
+        coordinators: ["Suraj R - 6363340644", "Jaydeep - 7022428849"]
+    },
+    13: {
+        title: "Hum & Hunch - Guess the Song",
+        registration: "Rs.500/-",
+        prize: "₹2,000 + Trophy",
+        participants: "2 Participants per Team",
+        rules: [
+            "Multiple rounds",
+            "details disclosed before each round",
+            "Prompting or using electronic devices leads to disqualification",
+            "College ID required",
+            "Judges' decision is final"
+        ],
+        dateTime: "4th April 2025 |<br> 2:30 PM - 4:00 PM",
+        venue: "Seminar Hall, BMSCCM",
+        coordinators: ["Santhosh - 9019064187", "Kavya V - 7829150881"]
+    },
+    14: {
+        title: "Danspiration - Group Dance",
+        registration: "Rs.2000",
+        prize: "₹21,000 + Trophy",
+        participants: "8 to 15 Participants per team",
+        timeLimit: "5+1 minutes",
+        rules: [
+            "No vulgarity will be tollerated",
+            "music should be provided via pen drive",
+            "props are allowed",
+            "College ID card is mandatory",
+            "Judges decision is final and binding"
+        ],
+        dateTime: "4th April 2025 |<br> 4:00 PM - 6:00 PM",
+        venue: "Amphitheatre, BMSECAC",
+        coordinators: ["Dhanush R - 8197216056", "Srujana - 9686311398", "Shreya S - 8431197164"]
+    },
+    15: {
+        title: "Step Up - Free Style Solo Dance",
+        registration: "Rs.500/-",
+        prize: "₹2,000 + Trophy",
+        participants: "Individual event",
+        timeLimit: "3+1 minutes",
+        rules: [
+            "All dance forms and props allowed",
+            "No vulgarity will be tollerated",
+            "music should be provided via pen drive",
+            "props are allowed",
+            "College ID card is mandatory",
+            "Judges decision is final and binding"
+        ],
+        dateTime: "5th April 2025 | <br>10:00 AM - 1:00 PM",
+        venue: "Seminar Hall, BMSCCM",
+        coordinators: ["Tarun C - 87922538002", "Vaibhavi - 9483866055"]
+    },
+    16: {
+        title: "Poetry Writing",
+        registration: "Rs.500",
+        prize: "₹2,000 + Trophy",
+        participants: "Individual event",
+        timeLimit: "45 minutes",
+        rules: [
+            "Theme given on the spot",
+            "poem must have at least 3 verses",
+            "College ID is mandatory",
+            "Judges' decision is final"
+        ],
+        dateTime: "5th April 2025 | <br>10:00 AM - 11:00 PM",
+        venue: "Room no 202, BMSCCM",
+        coordinators: ["Padmashree - 8050685380", "Sushanth - 9113297502"]
+    },
+    17: {
+        title: "500 Mile – Start Up 500",
+        registration: "Rs.500",
+        prize: "total earnings minus investment",
+        participants: "2 Participants per team",
+        rules: [
+            "Each team gets Rs. 500 as startup capital",
+            "Earn profit by selling/reselling within college",
+            "Team with highest profit wins",
+            "College ID is mandatory",
+            "Judges' decision is final"
+        ],
+        dateTime: "5th April 2025 |<br> 10:00 AM – 11:00 AM",
+        venue: "Terrace, BMSCCM",
+        coordinators: ["Sanjana Prasad: 9740599800", "Trisha B: 6361146658"]
+    },
+    18: {
+        title: "Gadyapatana Spardha",
+        registration: "Rs.500/-",
+        prize: "Rs.2,000 + Trophy",
+        participants: "Individual event",
+        timeLimit: "Maximum of two minutes per participant",
+        rules: [
+            "Participants read paragraphs from Banabhatta's Kadambari; judged on pronunciation and fluency",
+            "College ID card is mandatory",
+            "Judges' decision is final and binding"
+        ],
+        dateTime: "4th April 2025, <br>11:30 AM -12:30 PM",
+        venue: "Room No.204, BMSCCM",
+        coordinators: ["Mohith - 6360318559", "Pramati - 6360714734"]
+    },
+    19: {
+        title: "Bon Appetit (Flameless Cooking)",
+        registration: "Rs.500",
+        prize: "₹2,000 + Trophy",
+        participants: "2 Participants per team",
+        timeLimit: "1 hour",
+        rules: [
+            "No precooked or precut ingredients allowed",
+            "Display a chart of used ingredients",
+            "Only vegetarian dishes",
+            "No electric equipment allowed",
+            "College ID is mandatory",
+            "Judges decision is final"
+        ],
+        dateTime: "5th April 2025 |<br> 1:00 PM – 2:00 PM",
+        venue: "Room No 304, BMSCCM",
+        coordinators: ["Kanishka Priya: 9901472913", "Mourya: 9482161446"]
+    },
+    20: {
+        title: "Curio - General Quiz",
+        registration: "Rs.500",
+        prize: "₹2,000 + Trophy",
+        participants: "2 Participants per team",
+        topics: "Business, current affairs, pop culture, sports, general awareness",
+        rules: [
+            "20-question written prelim round",
+            "top 6 teams advance to stage final (same day)",
+            "Final details (rounds, scoring, rules) to be briefed by Quizmaster on the day",
+            "College ID is mandatory",
+            "Judges' decision is final"
+        ],
+        dateTime: "5th April 2025 |<br> 1:30 PM - 3:30 PM",
+        venue: "Seminar Hall, BMSCCM",
+        coordinators: ["Shubhada - 8310562363", "Jishnu - 9845911397"]
+    },
+    21: {
+        title: "Bhagavadgita Vaachana Spardha",
+        registration: "Rs.500",
+        prize: "₹2,000 + Trophy",
+        participants: "Individual event",
+        timeLimit: "4 + 1 minutes",
+        rules: [
+            "Recite any 10 Shlokas from the Bhagavad Gita with meaning in English/Kannada",
+            "Judged on pronunciation, meaning accuracy, and fluency",
+            "College ID is mandatory",
+            "Judges' decision is final"
+        ],
+        dateTime: "5th April 2025 |<br> 2:00 PM – 3:00 PM",
+        venue: "Room No 301, BMSCCM",
+        coordinators: ["Mohith: 6360318559", "Pramati: 6360714734"]
+    },
+    22: {
+        title: "Matrix Run",
+        registration: "Rs.1000/-",
+        prize: "₹5,000 + Trophy",
+        participants: "2 Participants per team",
+        timeLimit: "2 hours",
+        rules: [
+            "No Internet or electronics allowed",
+            "teams compete in Multiple rounds, highest scorer wins",
+            "teams will navigate through a seires of tech-inspired puzzles description challenges adn engaging tasks",
+            "College ID required",
+            "Judges' decision is final"
+        ],
+        dateTime: "5th April 2025 | <br>2:00 PM - 4:00 PM",
+        venue: "Ground floor lab, BMSCCM",
+        coordinators: ["Punith - 7676746179", "Sanvi - 9902467119"]
+    },
+    23: {
+        title: "Chitra Spardhe",
+        registration: "Rs.500/-",
+        prize: "Rs.2,000 + Trophy",
+        participants: "Individual event",
+        timeLimit: "Maximum of 60 minutes per participant",
+        topic: "will be given 10 minutes before the competition",
+        rules: [
+            "Participants must bring their own Art supplies",
+            "Judges' decision is final and binding",
+            "College ID card is mandatory"
+        ],
+        dateTime: "5th April 2025,<br> 3:00 PM - 4:00 PM",
+        venue: "Room No.302, BMSCCM",
+        coordinators: ["Gunashree - 9916017002", "Pramati - 8618444596"]
+    },
+    24: {
+        title: "Treasure Hunt",
+        registration: "Rs.500",
+        prize: "₹2,000 + Trophy",
+        participants: "Individual event",
+        rules: [
+            "Multiple elimination rounds will happen",
+            "first team to solve wins",
+            "College ID card is mandatory",
+            "Judges decision is final and binding"
+        ],
+        dateTime: "5th April 2025, <br>4:00 PM – 5:00 PM",
+        venue: "Ground, BMSECAC",
+        coordinators: ["Padmashree – 8050685380", "Sushanth – 9113297502"]
+    },
+    25: {
+        title: "Tug of War",
+        registration: "Rs.500",
+        prize: "₹2,000 + Trophy",
+        participants: "8 Participants per team",
+        rules: [
+            "Weight Limit for Boys is 640kg and Girls is 480kg",
+            "No change after weighing",
+            "pull only underarm",
+            "best of 3 pulls will be evluated"
+        ],
+        dateTime: "5th April 2025, <br>5:00 PM – 6:00 PM",
+        venue: "Ground, BMSECAC",
+        coordinators: ["Shivaprasad – 6360685357", "Divyashree – 8431746212"]
+    },
+    26: {
+        title: "Best Physique",
+        registration: "Rs.500",
+        prize: "₹5,000 + Trophy",
+        participants: "Individual event",
+        rules: [
+            "Judges' decision is final and binding",
+            "College ID card is mandatory"
+        ],
+        dateTime: "5th April 2025, <br>5:00 PM – 6:30 PM",
+        venue: "Amphitheatre, BMSCCM",
+        coordinators: ["Monish – 6366333994", "Hithesh – 7899877081", "M. Gaurav – 829636507"]
+    },
+    27: {
+        title: "Vogue Alley – Fashion Show",
+        registration: "Rs.500",
+        prize: "₹21,000 + Trophy",
+        participants: "8 to 12 Participants per team",
+        rules: [
+            "No vulgarity will be tollerated",
+            "music should be provided via pen drive",
+            "props are allowed",
+            "College ID card is mandatory",
+            "Judges decision is final and binding"
+        ],
+        dateTime: "5th April 2025, <br>6:30 PM – 8:00 PM",
+        venue: "Amphitheatre, BMSECAC",
+        coordinators: ["Sagar R – 8971105884", "Sanjana – 9902802504"]
+    }
+};
+  const urlParams = new URLSearchParams(window.location.search);
+  const eventId = urlParams.get('id');
+  const event = eventSummaries[eventId];
+  const container = document.getElementById("eventDetailsContainer");
+
+  if (event) {
+    container.innerHTML = `
+      <section class="event-container">
+        <div class="event-header"><h1>${event.title}</h1></div>
+        <div class="event-info">
+          <div class="info-item"><i class="fas fa-ticket-alt"></i><span><strong>Registration Fee:</strong><br>${event.registration}</span></div>
+          <div class="info-item"><i class="fas fa-trophy"></i><span><strong>Prize:</strong><br>${event.prize}</span></div>
+          <div class="info-item"><i class="fas fa-users"></i><span><strong>Participants:</strong><br> ${event.participants}</span></div>
+          ${event.timeLimit ? `<div class="info-item"><i class="fas fa-clock"></i><span><strong>Time Limit:</strong><br> ${event.timeLimit}</span></div>` : ''}
+          ${event.topic ? `<div class="info-item"><i class="fas fa-scroll"></i><span><strong>Topic:</strong><br> ${event.topic}</span></div>` : ''}
+          <div class="info-item"><i class="fas fa-calendar-alt"></i><span><strong>Date & Time:</strong><br> ${event.dateTime}</span></div>
+          <div class="info-item"><i class="fas fa-map-marker-alt"></i><span><strong>Venue:</strong><br> ${event.venue}</span></div>
+        </div>
+
+        <div class="rules-section">
+          <h2>Rules</h2>
+          <ul>${event.rules.map(rule => `<li>${rule}</li>`).join("")}</ul>
+        </div>
+
+        <div class="coordinators-section">
+          <h2>Coordinators</h2>
+          <ul>${event.coordinators.map(name => `<li>${name}</li>`).join("")}</ul>
+        </div>
+
+        <div class="registration-button">
+          <a href="events.html" class="back-btn">← Back to Events</a>
+        </div>
+      </section>
+    `;
+  } else {
+    container.innerHTML = `<p style="color:white; text-align:center; padding: 2rem;">Event not found. Please return to the <a href="events.html">events page</a>.</p>`;
+  }
+</script>
+<script src="script.js"></script>
+</body>
+</html>

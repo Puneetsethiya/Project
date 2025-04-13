@@ -4,23 +4,161 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+  <link rel="stylesheet" href="style.css" />
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+  
+    .fil h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(90deg, #66ffe0, #cc66ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .filter {
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .filter-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter label {
+      font-size: 1.2rem;
+      margin-top: 0.3rem;
+    }
+
+    select {
+      padding: 10px 16px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      background-color: #1f1f1f;
+      color: white;
+    }
+
+    .next-btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: linear-gradient(90deg, #66ffe0, #cc66ff);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+    }
+
+    .next-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .selected-count {
+      color: #00ffcc;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .event-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      width: 100%;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      background-color: #1f1f1f;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.1), 0 0 40px rgba(255, 0, 255, 0.1);
+      backdrop-filter: blur(10px);
+      height: 100px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .card.selected {
+      border-color: #00ffc8;
+      box-shadow: 0 0 25px rgba(0, 0, 255, 0.718);
+      transform: scale(1.03);
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      color: #ffcc00;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      margin: 1px 0;
+      font-weight: 400;
+      color: #ccc;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .reg {
+      margin-top: -0.1rem;
+    }
+
+    main .reg{
+        margin-top: -2rem;
+    }
+
+    @media (max-width: 768px) {
+      .filter {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .filter-left {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .next-btn {
+        width: 100%;
+        text-align: center;
+      }
+      .event-grid {
+        grid-template-columns: 1fr;
+      }
+      .card {
+        height: auto;
+      }
+    }
+  </style>
 </head>
 <body>
-  <canvas id="bg-canvas"></canvas>
+  
+  <canvas id="stars-canvas"></canvas>
 
+  
   <div class="page-wrapper">
     <header>
-      <div class="hamburger" id="hamburger">
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-      
+      <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
       <nav id="navbar">
         <a href="index.html">Home</a>
         <a href="events.html">Events</a>
@@ -31,42 +169,162 @@
       </nav>
     </header>
 
-    <main class="content">
-      <div class="about-section">
-        <h2>Registration Form</h2>
-        <div class="contact-form">
-          <form id="registrationForm">
-            <div class="form-group">
-              <label for="name">Full Name</label>
-              <input type="text" id="name" name="name" required>
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <label for="college">College Name</label>
-              <input type="text" id="college" name="college" required>
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" required>
-            </div>
-            <div class="form-group">
-              <label for="events">Select Events</label>
-              <textarea id="events" name="events" placeholder="List the events you want to participate in..." required></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Register Now</button>
-          </form>
+    <main class="content reg">
+        <div class="fil">
+            <h2>Select Events</h2>
+          </div>
+        
+        <div class="filter">
+            <div class="filter-left">
+              <label for="dayFilter">Filter by Day:</label>
+              <select id="dayFilter" onchange="filterEvents()">
+                <option value="all">All</option>
+                <option value="Day 1">Day 1</option>
+                <option value="Day 2">Day 2</option>
+              </select>
+              <button class="next-btn" onclick="submitEvents()">Next (<span id="count">0</span>)</button>
+              <button class="next-btn" onclick="clearAll()">Clear All</button>
         </div>
+              <button class="next-btn" onclick="completeRegistration()">Complete Registration</button>
+          </div>
+          
+        
+          <div class="event-grid" id="eventCards"></div>
+</main>
+
+    <footer>
+      <div class="footer-left">
+        <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
+        <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
+        <a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
       </div>
-    </main>
+      <div class="footer-right">
+        <iframe src="https://maps.google.com/maps?q=bmsccm&output=embed" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </footer>
 
     <div class="footer-credit">
-      <p>2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)</p>
+      2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
     </div>
   </div>
+  
+  <script>
+    const even = [
+  { day: "Day 1", name: "Bulls & Bears - Mockstock" },
+  { day: "Day 1", name: "Nautanki - Mime" },
+  { day: "Day 1", name: "Marketing Event - Big Pitcher" },
+  { day: "Day 1", name: "Battle of Words - Debate" },
+  { day: "Day 1", name: "Maathu Manthana - Kannada Debate" },
+  { day: "Day 1", name: "Chanakya - Elite Executives" },
+  { day: "Day 1", name: "Chitratmak - Pictionary" },
+  { day: "Day 1", name: "Chucklesome - Mad Ads" },
+  { day: "Day 1", name: "Codex Cronicals" },
+  { day: "Day 1", name: "Art Beat - Pencil Sketching" },
+  { day: "Day 1", name: "Hog A Thon" },
+  { day: "Day 1", name: "BGMI: E sports" },
+  { day: "Day 1", name: "Hum & Hunch - Guess the Song" },
+  { day: "Day 1", name: "Danspiration - Group Dance" },
+  { day: "Day 2", name: "STEP UP - Free Style Solo Dance" },
+  { day: "Day 2", name: "Poetry Writing" },
+  { day: "Day 2", name: "500 Mile - Start Up 500" },
+  { day: "Day 2", name: "Gadyapatana Spardha" },
+  { day: "Day 2", name: "Bon Appetit - Flameless Cooking" },
+  { day: "Day 2", name: "Curio - General Quiz" },
+  { day: "Day 2", name: "Bhagavatgita Vaachana Spardha" },
+  { day: "Day 2", name: "Matrix Run" },
+  { day: "Day 2", name: "Chitra Spardhe" },
+  { day: "Day 2", name: "Treasure Hunt" },
+  { day: "Day 2", name: "Thug of War" },
+  { day: "Day 2", name: "Best Physique" },
+  { day: "Day 2", name: "Vogue Alley - Fashion Show" }
+];
 
-  <script src="script.js"></script>
+let selectedEvents = JSON.parse(localStorage.getItem("selectedEvents")) || [];
+
+function renderEvents(filter = "all") {
+  const container = document.getElementById("eventCards");
+  container.innerHTML = "";
+
+  const filtered = filter === "all" ? even : even.filter(e => e.day === filter);
+
+  filtered.forEach(event => {
+    const [title, subtitle] = event.name.includes(" - ")
+      ? event.name.split(" - ")
+      : [event.name, ""];
+
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.name = event.name;
+    if (selectedEvents.includes(event.name)) {
+      card.classList.add("selected");
+    }
+
+    card.innerHTML = `
+      <h2>${title.trim()}</h2>
+      <div class="subtitle">${subtitle.trim()}</div>
+    `;
+
+    card.addEventListener("click", () => {
+      card.classList.toggle("selected");
+      const name = event.name;
+      if (selectedEvents.includes(name)) {
+        selectedEvents = selectedEvents.filter(n => n !== name);
+      } else {
+        selectedEvents.push(name);
+      }
+      localStorage.setItem("selectedEvents", JSON.stringify(selectedEvents));
+      updateCount();
+    });
+
+    container.appendChild(card);
+  });
+
+  updateCount(); 
+}
+
+function filterEvents() {
+  const filter = document.getElementById("dayFilter").value;
+  renderEvents(filter);
+}
+
+function updateCount() {
+  document.getElementById("count").innerText = selectedEvents.length;
+}
+
+function submitEvents() {
+  if (selectedEvents.length === 0) {
+    alert("Please select at least one event!");
+    return;
+  }
+
+  localStorage.setItem("selectedEvents", JSON.stringify(selectedEvents)); 
+  window.location.href = "qrcode.html";
+}
+
+function completeRegistration() {
+  if (selectedEvents.length === 0) {
+    alert("Please select at least one event!");
+    return;
+  }
+
+  const confirmPayment = confirm("⚠️ Click here *only after* completing your payment!\n\nIf not done yet,  click  on 'Cancel' and head to 'Next' instead.");
+  if (!confirmPayment) return;
+
+  localStorage.setItem("selectedEvents", JSON.stringify(selectedEvents));
+  window.location.href = "details.html"; 
+}
+
+function clearAll() {
+  selectedEvents = [];
+  localStorage.setItem("selectedEvents", JSON.stringify(selectedEvents));
+  renderEvents(document.getElementById("dayFilter").value);
+}
+
+renderEvents();
+
+  </script>
+
+<script src="script.js"></script>
+
 </body>
 </html>

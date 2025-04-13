@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <canvas id="bg-canvas"></canvas>
+  <canvas id="stars-canvas"></canvas>
 
   <div class="page-wrapper">
     <header>
@@ -47,15 +47,15 @@
           <h2>Send Us A Message</h2><br><br>
           <form id="contactForm" onsubmit="return validateForm()">
             <div class="form-group">
-              <label for="firstName">First Name</label>
+              <label for="firstName">Name</label>
               <input type="text" id="firstName" name="firstName" required>
-              <div class="error-message" id="firstNameError">Please enter your first name</div>
+              <div class="error-message" id="firstNameError">Please enter your name</div>
             </div>
             
             <div class="form-group">
-              <label for="lastName">Last Name</label>
+              <label for="lastName">College Name</label>
               <input type="text" id="lastName" name="lastName" required>
-              <div class="error-message" id="lastNameError">Please enter your last name</div>
+              <div class="error-message" id="lastNameError">Please enter your college name</div>
             </div>
             
             <div class="form-group">
@@ -72,7 +72,7 @@
             
             <div class="form-group">
               <label for="message">Message</label>
-              <textarea id="message" name="message" required></textarea>
+              <textarea maxlength="300" id="message" name="message" required></textarea>
               <div class="error-message" id="messageError">Please enter your message</div>
             </div>
             
@@ -111,6 +111,7 @@
   </div>
 
   <script src="script.js"></script>
+    
   
 </body>
 </html>
