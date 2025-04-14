@@ -46,6 +46,7 @@ header {
   top: 0;
   z-index: 100;
   text-align: center;
+  margin-left:-0.5rem
 }
 
 nav {
@@ -196,7 +197,7 @@ footer {
 
 .footer-credit {
   text-align: center;
-  padding: 1rem 1rem 0rem 1rem;
+  padding: 1rem 1rem 1rem 1rem;
   background: rgba(0, 0, 0, 0.8);
   color: white;
   font-size: 0.9rem;
@@ -511,6 +512,7 @@ textarea {
     text-align: center;
     margin: 0;
   }
+ 
 
   .footer-right iframe {
     width: 90%;
@@ -520,6 +522,11 @@ textarea {
   .contact-container {
     flex-direction: column;
   }
+}
+.footer-left a {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 @media (max-width: 600px) {
@@ -542,7 +549,7 @@ textarea {
 
   .cta-section {
     padding: 2rem;
-    margin-top: 2rem;
+    margin-top: 1.8rem;
     margin-bottom: 6rem;
     width: 100%;
   }
@@ -557,8 +564,19 @@ textarea {
   }
 
   .cta-button {
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     padding: 0.6rem 1.2rem;
+  }
+  .footer-left a {
+   margin-left: 0;
+    padding-left: 10px;
+    letter-spacing: 0.1rem;
+    font-size: 0.95rem;
+
+  }
+  .footer-credit{
+    font-size: 0.8rem;
+
   }
 }
 

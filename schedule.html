@@ -14,101 +14,96 @@
 <body>
   <canvas id="stars-canvas"></canvas>
 
-    <div class="page-wrapper">
-      <header>
-        <div class="hamburger" id="hamburger">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        
-        <nav id="navbar">
-          <a href="index.html">Home</a>
-          <a href="events.html">Events</a>
-          <a href="registration.html">Registration</a>
-          <a href="about us.html">About Us</a>
-          <a href="schedule.html">Schedule</a>
-          <a href="contact us.html">Contact Us</a>
-        </nav>
-      </header>
+  <div class="page-wrapper">
+    <header>
+      <div class="hamburger" id="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
 
-      <main class="content schedule">
-        <div class="container">
-          <h1>Event Schedule</h1>
-          <div class="toggle-button">
-            <div class="toggle-switch" onclick="toggleDay()">
-              <div class="slider-indicator" id="sliderIndicator"></div>
-              <span id="labelDay1">Day 1</span>
-              <span id="labelDay2">Day 2</span>
-            </div>
+      <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="registration.html">Registration</a>
+        <a href="about us.html">About Us</a>
+        <a href="schedule.html">Schedule</a>
+        <a href="contact us.html">Contact Us</a>
+      </nav>
+    </header>
+
+    <main class="content schedule">
+      <div class="container">
+        <h1>Event Schedule</h1>
+        <div class="toggle-button">
+          <div class="toggle-switch" onclick="toggleDay()">
+            <div class="slider-indicator" id="sliderIndicator"></div>
+            <span id="labelDay1">Day 1</span>
+            <span id="labelDay2">Day 2</span>
           </div>
-      
-       
-          <div class="table-wrapper active" id="day1">
-            <table class="schedule-table">
-              <thead>
-                <tr><th>Day</th><th>Time</th><th>Event Name</th><th>Venue</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Day 1</td><td>10:00 AM - 12:30 PM</td><td>Bulls & Bears - Mockstock</td><td>Ground Floor Lab &<br> Room No 101, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>10:00 AM - 12:00 PM</td><td>Nautanki - Mime</td><td>Room No 202, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>10:30 AM - 12:00 PM</td><td>Marketing Event - Big Pitcher</td><td>Seminar Hall, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>11:00 AM - 12:00 PM</td><td>Battle of Words - Debate</td><td>Room No 304, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>11:00 AM - 12:00 PM</td><td>Maathu Manthana - Kannada Debate</td><td>Room No 301, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>12:00 PM - 2:00 PM</td><td>Chanakya - Elite Executives</td><td>Room No 201, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>12:30 PM - 1:30 PM</td><td>Chitratmak - Pictionary</td><td>Room No 203, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>12:30 PM - 2:30 PM</td><td>Chucklesome - Mad Ads</td><td>Seminar Hall, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>12:30 PM - 2:30 PM</td><td>Codex Cronicals</td><td>Ground Floor, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>1:00 PM - 2:00 PM</td><td>Art Beat - Pencil Sketching</td><td>Room No 302, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>1:00 PM - 2:00 PM</td><td>Hog A Thon</td><td>Terrace, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>1:30 PM - 4:00 PM</td><td>BGMI: E sports</td><td>Room No 101, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>2:30 PM - 4:00 PM</td><td>Hum & Hunch - Guess the Song</td><td>Room No 304, BMSCCM</td></tr>
-                <tr><td>Day 1</td><td>4:00 PM - 6:00 PM</td><td>Danspiration - Group Dance</td><td>Amphitheatre, BMSECAC</td></tr>
-              </tbody>
-            </table>
-          </div>
-      
-          
-          <div class="table-wrapper" id="day2">
-            <table class="schedule-table">
-              <thead>
-                <tr><th>Day</th><th>Time</th><th>Event Name</th><th>Venue</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>Day 2</td><td>10:00 AM - 1:00 PM</td><td>STEP UP - Free Style Solo Dance</td><td>Seminar Hall, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>10:00 AM - 11:00 AM</td><td>Poetry Writing</td><td>Room No 202, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>10:00 AM - 11:00 AM</td><td>500 Mile - Start Up 500</td><td>Terrace, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>11:30 AM - 12:30 PM</td><td>Gadyapatana Spardha</td><td>Room No 204, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>1:00 PM - 2:00 PM</td><td>Bon Appetit - Flameless Cooking</td><td>Room No 304, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>1:30 PM - 3:30 PM</td><td>Curio - General Quiz</td><td>Seminar Hall, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>2:00 PM - 3:00 PM</td><td>Bhagavatgita Vaachana Spardha</td><td>Room No 301, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>2:00 PM - 4:00 PM</td><td>Matrix Run</td><td>Ground Floor Lab, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>3:00 PM - 4:00 PM</td><td>Chitra Spardhe</td><td>Room No 302, BMSCCM</td></tr>
-                <tr><td>Day 2</td><td>3:00 PM - 4:00 PM</td><td>Treasure Hunt</td><td>Ground, BMSECAC</td></tr>
-                <tr><td>Day 2</td><td>4:30 PM - 5:30 PM</td><td>Thug of War</td><td>Ground, BMSECAC</td></tr>
-                <tr><td>Day 2</td><td>5:00 PM - 6:30 PM</td><td>Best Physique</td><td>Amphitheatre, BMSECAC</td></tr>
-                <tr><td>Day 2</td><td>6:30 PM - 8:00 PM</td><td>Vogue Alley - Fashion Show</td><td>Ground, BMSECAC</td></tr>
-              </tbody>
-            </table>
-          </div>
-      
-          
         </div>
-      </main>
-      
-      <footer>
-        <div class="footer-left">
-          <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-instagram"></i> SAMSKRUTHI&nbsp;-&nbsp;Instagram
-          </a>
-          <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-instagram"></i> BMSCCM&nbsp;-&nbsp;Instagram
-          </a>
-          <a href="https://www.bmsccm.ac.in/" target="_blank" rel="noopener noreferrer">
-            <i class="fas fa-globe"></i> BMSCCM Website
-          </a>
-          </div>
-          
+
+        <div class="table-wrapper active" id="day1">
+          <table class="schedule-table">
+            <thead>
+              <tr><th>Day</th><th>Event Name</th><th>Time</th><th>Venue</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Day 1</td><td>Bulls & Bears - Mockstock</td><td>10:00 AM - 12:30 PM</td><td>Ground Floor Lab &<br> Room No 101, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Nautanki - Mime</td><td>10:00 AM - 12:00 PM</td><td>Room No 202, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Marketing Event - Big Pitcher</td><td>10:30 AM - 12:00 PM</td><td>Seminar Hall, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Battle of Words - Debate</td><td>11:00 AM - 12:00 PM</td><td>Room No 304, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Maathu Manthana - Kannada Debate</td><td>11:00 AM - 12:00 PM</td><td>Room No 301, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Chanakya - Elite Executives</td><td>12:00 PM - 2:00 PM</td><td>Room No 201, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Chitratmak - Pictionary</td><td>12:30 PM - 1:30 PM</td><td>Room No 203, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Chucklesome - Mad Ads</td><td>12:30 PM - 2:30 PM</td><td>Seminar Hall, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Codex Cronicals</td><td>12:30 PM - 2:30 PM</td><td>Ground Floor, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Art Beat - Pencil Sketching</td><td>1:00 PM - 2:00 PM</td><td>Room No 302, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Hog A Thon</td><td>1:00 PM - 2:00 PM</td><td>Terrace, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>BGMI: E sports</td><td>1:30 PM - 4:00 PM</td><td>Room No 101, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Hum & Hunch - Guess the Song</td><td>2:30 PM - 4:00 PM</td><td>Room No 304, BMSCCM</td></tr>
+              <tr><td>Day 1</td><td>Danspiration - Group Dance</td><td>4:00 PM - 6:00 PM</td><td>Amphitheatre, BMSECAC</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper" id="day2">
+          <table class="schedule-table">
+            <thead>
+              <tr><th>Day</th><th>Event Name</th><th>Time</th><th>Venue</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Day 2</td><td>STEP UP - Free Style Solo Dance</td><td>10:00 AM - 1:00 PM</td><td>Seminar Hall, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>Poetry Writing</td><td>10:00 AM - 11:00 AM</td><td>Room No 202, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>500 Mile - Start Up 500</td><td>10:00 AM - 11:00 AM</td><td>Terrace, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>Gadyapatana Spardha</td><td>11:30 AM - 12:30 PM</td><td>Room No 204, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>Bon Appetit - Flameless Cooking</td><td>1:00 PM - 2:00 PM</td><td>Room No 304, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>Curio - General Quiz</td><td>1:30 PM - 3:30 PM</td><td>Seminar Hall, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>Bhagavatgita Vaachana Spardha</td><td>2:00 PM - 3:00 PM</td><td>Room No 301, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>Matrix Run</td><td>2:00 PM - 4:00 PM</td><td>Ground Floor Lab, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>Chitra Spardhe</td><td>3:00 PM - 4:00 PM</td><td>Room No 302, BMSCCM</td></tr>
+              <tr><td>Day 2</td><td>Treasure Hunt</td><td>3:00 PM - 4:00 PM</td><td>Ground, BMSECAC</td></tr>
+              <tr><td>Day 2</td><td>Thug of War</td><td>4:30 PM - 5:30 PM</td><td>Ground, BMSECAC</td></tr>
+              <tr><td>Day 2</td><td>Best Physique</td><td>5:00 PM - 6:30 PM</td><td>Amphitheatre, BMSECAC</td></tr>
+              <tr><td>Day 2</td><td>Vogue Alley - Fashion Show</td><td>6:30 PM - 8:00 PM</td><td>Ground, BMSECAC</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <div class="footer-left">
+        <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-instagram"></i> SAMSKRUTHI&nbsp;-&nbsp;Instagram
+        </a>
+        <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-instagram"></i> BMSCCM&nbsp;-&nbsp;Instagram
+        </a>
+        <a href="https://www.bmsccm.ac.in/" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-globe"></i> BMSCCM Website
+        </a>
+      </div>
 
       <div class="footer-right">
         <iframe 
