@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="theme-color" content="#000000">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .content { margin-top: 3rem !important; padding-top: 0 !important; }
+    .event-container {
+      max-width: 1000px; width: 100%; margin:0 auto; padding: 2rem;
+      background: rgba(0,0,0,0.7); border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,255,255,0.1), 0 0 40px rgba(255,0,255,0.1);
+      border: 1px solid rgba(0,255,255,0.1); backdrop-filter: blur(10px); letter-spacing: 0.1rem;
+    }
+    .event-header { text-align: center; margin-bottom: 2rem; }
+    .event-header h1 {
+      font-size: 2.8rem; margin-bottom: 0.8rem;
+      background: linear-gradient(90deg, #00ffff, #ff00ff);
+      background-clip: text; -webkit-background-clip: text;
+      color: transparent; -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 8px rgba(0,255,255,0.4), 0 0 16px rgba(255,0,255,0.3);
+      letter-spacing: 0.15rem;
+    }
+    .event-info {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem; margin-bottom: 2rem; font-size: 1.1rem; line-height: 1.9;
+      letter-spacing: 0.1rem; color: rgba(255,255,255,0.9);
+    }
+    .info-item { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
+    .info-item i { font-size: 1.3rem; color: #66ffe0; }
+    .rules-section, .coordinators-section { margin-bottom: 2rem; }
+    .rules-section h2, .coordinators-section h2 {
+      font-size: 1.8rem; margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, #00ffff, #ff00ff);
+      background-clip: text; -webkit-background-clip: text;
+      color: transparent; -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 8px rgba(0,255,255,0.4), 0 0 16px rgba(255,0,255,0.3);
+      letter-spacing: 0.1rem;
+    }
+    .rules-section ul, .coordinators-section ul {
+      list-style-type: none; padding-left: 1rem; line-height: 1.9;
+      font-size: 1.1rem; color: rgba(255,255,255,0.9); letter-spacing: 0.1rem; text-align: left;
+    }
+    .rules-section li, .coordinators-section li {
+      margin-bottom: 1rem; position: relative; padding-left: 2.2rem; line-height: 1.9;
+    }
+    .rules-section li::before {
+      content: '●'; position: absolute; left: 0; top: 0.15rem; color: #66ffe0;
+      font-size: 1.6rem; line-height: 1;
+    }
+    .coordinators-section li::before {
+      content: '●'; position: absolute; left: 0; top: 0.15rem; color: #cc66ff;
+      font-size: 1.6rem; line-height: 1;
+    }
+    .registration-button { text-align: center; margin-top: 2.5rem; letter-spacing: 0.1rem; }
+    .register-btn, .back-btn {
+      padding: 0.7rem 1.5rem; border: 2px solid rgba(0,255,255,0.4); border-radius: 2rem;
+      font-size: 1rem; color: white; text-decoration: none; font-weight: 600;
+      backdrop-filter: blur(12px); background: rgba(255,255,255,0.05);
+      box-shadow: 0 0 10px rgba(0,255,255,0.15), 0 0 20px rgba(255,0,255,0.1);
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      display: inline-block; letter-spacing: 0.1rem;
+    }
+    .register-btn:hover, .back-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 25px rgba(0,255,255,0.4), 0 0 35px rgba(255,0,255,0.3);
+      border-color: #fff;
+    }
+    .error-message {
+      text-align: center; padding: 2rem; line-height: 1.9; font-size: 1.1rem;
+      letter-spacing: 0.1rem; color: rgba(255,255,255,0.9);
+    }
+    .error-message h2 {
+      color: #ff6b6b; margin-bottom: 1.5rem; font-size: 1.8rem; letter-spacing: 0.1rem; line-height: 1.9;
+    }
+    @media (max-width: 768px) {
+      body { margin: 0; padding: 0; overflow-x: hidden; display: flex; justify-content: center; align-items: flex-start; }
+      .register-btn { margin-top: 1rem; }
+      .event-details { margin-top: 1rem !important; margin-left: 0 !important; margin-right: 0 !important; width: 100% !important; max-width: 380px; padding: 1.5rem; box-sizing: border-box; }
+      main { padding: 1rem; }
+      .event-header h1 { font-size: 1.8rem; letter-spacing: 0.05rem; }
+      .event-container { padding: 1.2rem; }
+      .event-info { grid-template-columns: 1fr; font-size: 1rem; gap: 1rem; }
+      .rules-section ul, .coordinators-section ul { font-size: 1rem; }
+      .rules-section li::before, .coordinators-section li::before { font-size: 1.4rem; top: 0.25rem; }
+      .register-btn, .back-btn { font-size: 0.9rem; padding: 0.6rem 1.2rem; }
+    }
+    .modal {
+      display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; overflow-y: auto;
+    }
+    .modal-content {
+      background: black; padding: 2rem; border-radius: 12px; min-width: 300px; max-height: 90vh; overflow-y: auto; position: relative;
+      scrollbar-width: thin; scrollbar-color: #66ffe0 #222;
+    }
+    .modal-content::-webkit-scrollbar { width: 8px; background: #222; border-radius: 8px; }
+    .modal-content::-webkit-scrollbar-thumb {
+      background: linear-gradient(90deg, #66ffe0 0%, #cc66ff 100%);
+      border-radius: 8px; box-shadow: 0 0 8px #66ffe0, 0 0 8px #cc66ff;
+    }
+    .modal-content::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(90deg, #00ffff 0%, #ff00ff 100%);
+    }
+    .close-btn {
+      position: absolute; right: 1rem; top: 1rem; font-size: 1.5rem; cursor: pointer;
+    }
+    .action-button {
+      padding: 0.5rem 2rem; border: 2px solid rgba(0,255,255,0.4); border-radius: 2rem; font-size: 1rem;
+      color: white; text-decoration: none; font-weight: 600; backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.05); box-shadow: 0 0 10px rgba(0,255,255,0.15), 0 0 20px rgba(255,0,255,0.1);
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      display: inline-block; cursor: pointer; font-family: 'Orbitron', sans-serif;
+    }
+    .action-button:hover {
+      background: linear-gradient(90deg, #66ffe0, #cc66ff); color: black;
+    }
+    .blur-bg { filter: blur(8px); pointer-events: none; user-select: none; }
+  </style>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+<div class="page-wrapper" id="pageWrapper">
+  <div id="eventDetailsContainer"></div>
+</div>
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeEditForm()">&times;</span>
+    <h2>Edit Event</h2>
+    <form id="editForm">
+      <input type="text" id="editTitle" placeholder="Title" required><br>
+      <input type="text" id="editRegistration" placeholder="Registration Fee"><br>
+      <input type="text" id="editPrize" placeholder="Prize"><br>
+      <input type="text" id="editParticipants" placeholder="Participants"><br>
+      <input type="text" id="editTimeLimit" placeholder="Time Limit"><br>
+      <input type="text" id="editTopic" placeholder="Topic"><br>
+      <input type="text" id="editDateTime" placeholder="Date & Time"><br>
+      <input type="text" id="editVenue" placeholder="Venue"><br>
+      <textarea id="editRules" placeholder="Rules (one per line)"></textarea><br>
+      <textarea id="editCoordinators" placeholder="Coordinators (one per line)"></textarea><br>
+      <button type="submit" class="action-button">Save</button>
+    </form>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+  let isAdmin = false;
+  let currentEvent = null;
+  const urlParams = new URLSearchParams(window.location.search);
+  const eventId = urlParams.get('id');
+
+  async function checkAdminStatus() {
+    try {
+      const res = await fetch('http://localhost:3000/api/admin/status', { credentials: 'include' });
+      const data = await res.json();
+      isAdmin = data.isAdmin;
+    } catch (e) {
+      isAdmin = false;
+    }
+    updateAdminUI();
+  }
+  function updateAdminUI() {
+    document.querySelectorAll('.admin-controls').forEach(el => {
+      el.style.display = isAdmin ? 'inline-block' : 'none';
+    });
+    const loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) loginBtn.style.display = isAdmin ? 'none' : '';
+  }
+  function renderEvent(event) {
+    document.getElementById("eventDetailsContainer").innerHTML = `
+      <section class="event-container">
+        <div class="event-header"><h1>${event.title}</h1></div>
+        <div class="event-info">
+          <div class="info-item"><i class="fas fa-ticket-alt"></i><span><strong>Registration Fee:</strong><br>₹${event.registration}</span></div>
+          <div class="info-item"><i class="fas fa-trophy"></i><span><strong>Prize:</strong><br>${event.prize}</span></div>
+          <div class="info-item"><i class="fas fa-users"></i><span><strong>Participants:</strong><br>${event.participants}</span></div>
+          ${event.timeLimit ? `<div class="info-item"><i class="fas fa-clock"></i><span><strong>Time Limit:</strong><br>${event.timeLimit}</span></div>` : ''}
+          ${event.topic ? `<div class="info-item"><i class="fas fa-scroll"></i><span><strong>Topic:</strong><br>${event.topic}</span></div>` : ''}
+          <div class="info-item"><i class="fas fa-calendar-alt"></i><span><strong>Date & Time:</strong><br>${event.dateTime}</span></div>
+          <div class="info-item"><i class="fas fa-map-marker-alt"></i><span><strong>Venue:</strong><br>${event.venue}</span></div>
+        </div>
+        <div class="rules-section">
+          <h2>Rules</h2>
+          <ul>${event.rules.map(rule => `<li>${rule}</li>`).join('')}</ul>
+        </div>
+        <div class="coordinators-section">
+          <h2>Coordinators</h2>
+          <ul>${event.coordinators.map(c => `<li>${c}</li>`).join('')}</ul>
+        </div>
+        <div class="registration-button">
+          <a href="events.html" class="back-btn" style="margin-right: 1rem;">← Back to Events</a>
+          <span class="admin-controls" style="display:none">
+            <a href="#" class="register-btn" onclick="openEditForm();return false;">✏️ Edit Event</a>
+          </span>
+        </div>
+      </section>
+    `;
+    updateAdminUI();
+  }
+  fetch(`http://localhost:3000/api/events/${eventId}`)
+    .then(res => {
+      if (!res.ok) throw new Error('Event not found');
+      return res.json();
+    })
+    .then(event => {
+      currentEvent = event;
+      renderEvent(event);
+    })
+    .catch(err => {
+      document.getElementById("eventDetailsContainer").innerHTML = `<div class="error-message"><h2>Error</h2><p>${err.message}. <a href="events.html">Back to Events</a></p></div>`;
+    });
+  function openEditForm() {
+    if (!currentEvent) return;
+    document.getElementById("editTitle").value = currentEvent.title || '';
+    document.getElementById("editRegistration").value = currentEvent.registration || '';
+    document.getElementById("editPrize").value = currentEvent.prize || '';
+    document.getElementById("editParticipants").value = currentEvent.participants || '';
+    document.getElementById("editTimeLimit").value = currentEvent.timeLimit || '';
+    document.getElementById("editTopic").value = currentEvent.topic || '';
+    document.getElementById("editDateTime").value = currentEvent.dateTime || '';
+    document.getElementById("editVenue").value = currentEvent.venue || '';
+    document.getElementById("editRules").value = (currentEvent.rules || []).join("\n");
+    document.getElementById("editCoordinators").value = (currentEvent.coordinators || []).join("\n");
+    document.getElementById("editModal").style.display = 'flex';
+    document.getElementById("pageWrapper").classList.add("blur-bg");
+  }
+  function closeEditForm() {
+    document.getElementById("editModal").style.display = 'none';
+    document.getElementById("pageWrapper").classList.remove("blur-bg");
+  }
+  document.getElementById("editForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const updatedEvent = {
+      title: document.getElementById("editTitle").value,
+      registration: document.getElementById("editRegistration").value,
+      prize: document.getElementById("editPrize").value,
+      participants: document.getElementById("editParticipants").value,
+      timeLimit: document.getElementById("editTimeLimit").value,
+      topic: document.getElementById("editTopic").value,
+      dateTime: document.getElementById("editDateTime").value,
+      venue: document.getElementById("editVenue").value,
+      rules: document.getElementById("editRules").value.split('\n').filter(Boolean),
+      coordinators: document.getElementById("editCoordinators").value.split('\n').filter(Boolean),
+    };
+    fetch(`http://localhost:3000/api/admin/events/${eventId}`, { // <-- changed here
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(updatedEvent)
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to update event');
+      return res.json();
+    })
+    .then(() => {
+      alert("Event updated successfully!");
+      return fetch(`http://localhost:3000/api/events/${eventId}`);
+    })
+    .then(res => res.json())
+    .then(event => {
+      currentEvent = event;
+      renderEvent(event);
+      closeEditForm();
+    })
+    .catch(err => alert(err.message));
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    checkAdminStatus();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+  .fil h2{font-size:2.2rem;margin-bottom:2rem;background:linear-gradient(90deg,#66ffe0,#cc66ff);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+  .filter{margin-bottom:3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+  .filter-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .filter label{font-size:1.2rem;margin-top:.3rem;}
+  select{padding:10px 16px;font-size:1rem;border-radius:8px;border:none;background-color:#1f1f1f;color:#fff;}
+  .next-btn{padding:10px 20px;font-size:1rem;background:linear-gradient(90deg,#66ffe0,#cc66ff);color:#000;border:none;border-radius:8px;cursor:pointer;font-weight:bold;transition:transform .2s;}
+  .next-btn:hover{transform:scale(1.05);}
+  .selected-count{color:#00ffcc;font-weight:bold;font-size:1rem;}
+  .event-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;width:100%;}
+  .card{display:flex;flex-direction:column;justify-content:flex-start;background:#1f1f1f;border:1px solid #333;border-radius:16px;padding:20px;text-align:center;box-shadow:0 0 20px rgba(0,255,255,.1),0 0 40px rgba(255,0,255,.1);backdrop-filter:blur(10px);height:100px;cursor:pointer;transition:all .3s;}
+  .card.selected{border-color:#00ffc8;box-shadow:0 0 25px rgba(0,0,255,.718);transform:scale(1.03);}
+  .card h2{font-size:1.5rem;color:#ffcc00;}
+  .subtitle{font-size:1.1rem;margin:1px 0;font-weight:400;color:#ccc;}
+  .card-footer{margin-top:auto;display:flex;flex-direction:column;gap:10px;}
+  .reg{margin-top:-.1rem;}
+  main .reg{margin-top:-2rem;}
+  @media (max-width:768px){
+    .filter{flex-direction:column;align-items:stretch;}
+    .filter-left{flex-direction:column;align-items:stretch;}
+    .next-btn{width:100%;text-align:center;}
+    .event-grid{grid-template-columns:1fr;}
+    .card{height:auto;}
+  }
+  </style>
+</head>
+<body>
+<canvas id="stars-canvas"></canvas>
+<div class="page-wrapper">
+  <header>
+    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+    <nav id="navbar">
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="registration.html">Registration</a>
+      <a href="about.html">About Us</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+  <main class="content reg">
+    <div class="fil"><h2>Select Events</h2></div>
+    <div class="filter">
+      <div class="filter-left">
+        <label for="dayFilter">Filter by Day:</label>
+        <select id="dayFilter" onchange="filterEvents()">
+          <option value="all">All</option>
+          <option value="Day 1">Day 1</option>
+          <option value="Day 2">Day 2</option>
+        </select>
+        <button class="next-btn" onclick="clearAll()">Clear All</button>
+        <button class="next-btn" onclick="submitEvents()">Next (<span id="count">0</span>)</button>
+      </div>
+    </div>
+    <div class="event-grid" id="eventCards"></div>
+  </main>
+  <footer>
+    <div class="footer-left">
+      <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
+      <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
+      <a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
+    </div>
+    <div class="footer-right">
+      <iframe src="https://maps.google.com/maps?q=bmsccm&output=embed" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </footer>
+  <div class="footer-credit">
+    2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
+  </div>
+</div>
+<script>
+let selectedEvents = JSON.parse(localStorage.getItem("selectedEvents")) || [];
+let allEvents = [];
+
+async function fetchEvents() {
+  try {
+    const res = await fetch("http://localhost:3000/api/events");
+    const data = await res.json();
+    allEvents = data;
+    renderEvents();
+  } catch (e) {
+    console.error("Error fetching events:", e);
+  }
+}
+
+function renderEvents(filter = "all") {
+  const c = document.getElementById("eventCards");
+  c.innerHTML = "";
+  const f = filter === "all" ? allEvents : allEvents.filter(e => e.day === filter);
+  f.forEach(event => {
+    if (!event.title) {
+      console.warn("Skipping event with missing title:", event);
+      return;
+    }
+    const fullName = event.subtitle ? `${event.title} - ${event.subtitle}` : event.title;
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.name = fullName;
+    if (selectedEvents.includes(fullName)) card.classList.add("selected");
+    card.innerHTML = `<h2>${event.title}</h2><div class="subtitle">${event.subtitle || ""}</div>`;
+    card.addEventListener("click", () => {
+      card.classList.toggle("selected");
+      if (selectedEvents.includes(fullName)) {
+        selectedEvents = selectedEvents.filter(name => name !== fullName);
+      } else {
+        selectedEvents.push(fullName);
+      }
+      localStorage.setItem("selectedEvents", JSON.stringify(selectedEvents));
+      updateCount();
+    });
+    c.appendChild(card);
+  });
+  updateCount();
+}
+
+function filterEvents() {
+  const f = document.getElementById("dayFilter").value;
+  renderEvents(f);
+}
+
+function updateCount() {
+  document.getElementById("count").innerText = selectedEvents.length;
+}
+
+function submitEvents() {
+  if (selectedEvents.length === 0) {
+    alert("Please select at least one event!");
+    return;
+  }
+  localStorage.setItem("selectedEvents", JSON.stringify(selectedEvents));
+  window.location.href = "details.html";
+}
+
+function clearAll() {
+  selectedEvents = [];
+  localStorage.setItem("selectedEvents", JSON.stringify(selectedEvents));
+  renderEvents(document.getElementById("dayFilter").value);
+}
+
+fetchEvents();
+</script>
+<script src="js/script.js"></script>
+</body>
+</html>

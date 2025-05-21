@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .fullscreen-wrapper{height:80vh;width:90vw;display:flex;justify-content:center;align-items:center;padding:2rem;border-radius:15px;box-shadow:0 0 20px rgba(0,255,255,0.1),0 0 40px rgba(255,0,255,0.1);border:1px solid rgba(0,255,255,0.1);backdrop-filter:blur(10px)}
+    .split-container{display:flex;width:100%;max-width:1300px;height:100%;border-radius:16px;overflow:hidden;box-shadow:0 0 40px rgba(255,255,255,0.08)}
+    .image-panel,.events-panel{flex:1;padding:2rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+    .image-panel p{font-size:1.1rem;margin-bottom:1.5rem;color:#ccc}
+    .image-panel img{max-width:100%;max-height:80%;border-radius:12px;box-shadow:0 0 30px rgba(255,255,255,0.1);margin-top:3rem}
+    .events-panel>div{display:flex;flex-direction:column;align-items:center;width:100%}
+    .events-panel h2{font-size:2rem;margin-bottom:1rem}
+    #event-grid{flex:1;overflow-y:auto;list-style:none;padding:0;margin:0 auto;width:100%;max-width:400px;display:flex;align-items:center;flex-direction:column}
+    #event-grid li{background:rgba(255,255,255,0.08);margin-bottom:10px;padding:10px 15px;border-radius:8px;text-align:center}
+    .qr{margin-top:-1rem}
+    .proceed-button{padding:1rem 2rem;border:2px solid rgba(0,255,255,0.4);border-radius:2rem;font-size:1rem;color:white;text-decoration:none;font-weight:600;backdrop-filter:blur(12px);background:rgba(255,255,255,0.05);box-shadow:0 0 10px rgba(0,255,255,0.15),0 0 20px rgba(255,0,255,0.1);transition:transform 0.3s,box-shadow 0.3s,border-color 0.3s;display:inline-block;cursor:pointer;margin-top:1rem}
+    .proceed-button:hover{transform:scale(1.1);box-shadow:0 0 25px rgba(0,255,255,0.4),0 0 35px rgba(255,0,255,0.3);border-color:#fff}
+    .event-grid{display:grid;grid-template-columns:1fr;gap:10px;max-height:70vh;overflow-y:auto;margin-top:1rem;width:100%;max-width:500px}
+    .event-grid.two-columns{grid-template-columns:1fr 1fr}
+    .event-grid div{background:rgba(255,255,255,0.08);padding:10px 15px;border-radius:8px;text-align:center}
+    .events-panel{display:flex;flex-direction:column;justify-content:space-between;height:90%}
+    .event-content{flex:1;display:flex;flex-direction:column;align-items:center;overflow-y:auto}
+    @media (max-width:768px){.fullscreen-wrapper{height:auto;padding:1rem 0.5rem}.split-container{flex-direction:column;height:auto;max-height:none;box-shadow:none}.image-panel,.events-panel{width:100%;padding:1rem 0}.image-panel h2,.events-panel h2{font-size:1.1rem;margin-bottom:1rem;line-height:1.4}.image-panel img{margin-top:1rem;max-height:250px;width:100%;object-fit:contain}.event-grid{max-height:none;max-width:100%;grid-template-columns:1fr !important;padding-bottom:1rem;margin:0 auto}.event-grid.two-columns{grid-template-columns:1fr}.event-grid div{font-size:0.9rem;word-wrap:break-word;overflow-wrap:break-word;line-height:1.3;max-width:90%;box-sizing:border-box;white-space:normal}.proceed-button{font-size:0.85rem;padding:0.6rem 1.3rem;width:fit-content;margin:1rem auto 0}footer{margin-top:5rem}}
+  </style>
+</head>
+<body>
+  <canvas id="stars-canvas"></canvas>
+  <div class="page-wrapper">
+    <header>
+      <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+      <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="registration.html">Registration</a>
+        <a href="about.html">About Us</a>
+        <a href="schedule.html">Schedule</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+    </header>
+    <main class="content qr">
+      <div class="fullscreen-wrapper">
+        <div class="split-container">
+          <div class="image-panel">
+            <h2>Scan the QR Code and complete the payment using any UPI app</h2>
+            <img src="images/QRCODE.jpg" alt="QR Code">
+          </div>
+          <div class="events-panel">
+            <h2>Selected Events</h2>
+            <div class="event-content">
+              <div id="event-grid" class="event-grid"></div>
+              <div id="total-amount" style="margin-top:2rem;font-size:1.3rem;font-weight:bold;background:linear-gradient(90deg,#00ffff,#ff00ff);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 8px rgba(0,255,255,0.4),0 0 16px rgba(255,0,255,0.3);letter-spacing:0.3rem;"></div>
+            </div>
+            <input type="text" id="transactionId" placeholder="Enter Transaction ID" style="margin-top:1rem;padding:10px;width:80%;max-width:300px;border-radius:8px;border:1px solid #ccc;" />
+            <button class="proceed-button" onclick="goToDetails()">Complete Registration</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="footer-left">
+        <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
+        <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
+        <a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
+      </div>
+      <div class="footer-right">
+        <iframe src="https://maps.google.com/maps?q=bmsccm&output=embed" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </footer>
+    <div class="footer-credit">
+      2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
+    </div>
+  </div>
+  <script src="js/script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async function () {
+      const eventGrid = document.getElementById("event-grid");
+      const totalAmount = document.getElementById("total-amount");
+      const selectedEvents = JSON.parse(localStorage.getItem("selectedEvents")) || [];
+
+      if (selectedEvents.length === 0) {
+        eventGrid.innerHTML = "<div>No events selected.</div>";
+        totalAmount.innerHTML = "";
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:3000/api/events');
+        const events = await res.json();
+        const eventPriceMap = {};
+
+        events.forEach(function (event) {
+          if (event && event.title && typeof event.title === 'string') {
+            const displayName = event.subtitle ? `${event.title.trim()} - ${event.subtitle.trim()}` : event.title.trim();
+            eventPriceMap[displayName] = event.registration;
+            eventPriceMap[event.title.trim()] = event.registration;
+          }
+        });
+
+        if (selectedEvents.length > 6) {
+          eventGrid.classList.add("two-columns");
+        }
+
+        let total = 0;
+        selectedEvents.forEach(function (eventName) {
+          const trimmed = eventName.trim();
+          const price = Number(eventPriceMap[trimmed]) || 0;
+          total += price;
+
+          const div = document.createElement("div");
+          div.textContent = `${eventName} - ₹${price}`;
+          eventGrid.appendChild(div);
+        });
+
+        totalAmount.textContent = `Total: ₹${total}`;
+      } catch (err) {
+        console.error("Error fetching events:", err);
+        eventGrid.innerHTML = "<div>Could not load event prices.</div>";
+      }
+    });
+
+    function handleBeforeUnload(event) {
+      event.preventDefault();
+      event.returnValue = '';
+    }
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(function () {
+        toast.style.display = 'none';
+      }, 2200);
+    }
+
+    function goToDetails() {
+      const transactionId = document.getElementById("transactionId").value.trim();
+      if (!transactionId) {
+        alert("Please enter the Transaction ID.");
+        return;
+      }
+
+      const registrationData = JSON.parse(localStorage.getItem("registrationData"));
+      const selectedEvents = JSON.parse(localStorage.getItem("selectedEvents")) || [];
+
+      if (!registrationData) {
+        alert("No registration data found. Please go back and fill the form.");
+        return;
+      }
+
+      registrationData.transactionId = transactionId;
+      registrationData.events = selectedEvents.join(", ");
+
+      const formData = new FormData();
+      for (const key in registrationData) {
+        formData.append(key, registrationData[key]);
+      }
+
+      fetch("https://script.google.com/macros/s/AKfycbycVxXXrj7FCjzYMIQwQjPj4z9gy0z4xZcgwkbB7q4RxPfjKOUWbPSQxarGDW_e0k93AQ/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(function (res) {
+        if (res.ok) {
+          if (window.innerWidth < 700) {
+            showToast("Registration completed successfully!");
+            setTimeout(function () {
+              localStorage.clear();
+              window.removeEventListener("beforeunload", handleBeforeUnload);
+              window.location.href = "index.html";
+            }, 2000);
+          } else {
+            alert("Registration completed successfully!");
+            localStorage.clear();
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+            window.location.href = "index.html";
+          }
+        } else {
+          alert("Error submitting. Please try again.");
+        }
+      })
+      .catch(function (err) {
+        console.error(err);
+        alert("Something went wrong. Please try again.");
+      });
+    }
+  </script>
+  <div id="toast" style="display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.92);color:#66ffe0;padding:1rem 2rem;border-radius:2rem;font-family:'Orbitron',sans-serif;font-size:1.1rem;z-index:9999;box-shadow:0 0 16px #66ffe0;text-align:center;min-width:180px;max-width:90vw;"></div>
+</body>
+</html>

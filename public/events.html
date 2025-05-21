@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <style>
+    .event-title {
+      min-height: 2em; 
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: black;
+      padding: 1.2rem 1.2rem 1.5rem 1.2rem;
+      border-radius: 12px;
+      min-width: 250px;
+      max-width: 450px;
+      width: 100%;
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    @media (max-width: 500px) {
+      .fil{
+        margin-top: 2rem;
+      }
+      
+      .modal-content {
+        min-width: 0;
+        max-width: 95vw;
+        padding: 0.7rem;
+      }
+    }
+    .close-btn {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .card-footer {
+      margin-top: 1rem;
+    }
+    .action-button {
+      padding: 0.5rem 2rem;
+      border: 2px solid rgba(0, 255, 255, 0.4);
+      border-radius: 2rem;
+      font-size: 1rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.15), 0 0 20px rgba(255, 0, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      display: inline-block;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;  
+    }
+    .action-button:hover {
+      background: linear-gradient(90deg, #66ffe0, #cc66ff);
+      color: black;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    .action-buttons .action-button {
+      width: 30%;
+      margin: 0;
+    }
+    #editEventForm input {
+      margin-bottom: 1rem;
+    }
+    #adminForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    #adminForm input {
+      margin-bottom: 0.5rem;
+      width: 90%;
+      max-width: 300px;
+      box-sizing: border-box;
+    }
+    #adminForm .action-button {
+      width: 100%;
+      max-width: 200px;
+    }
+    #toggleAuth {
+      width: 100%;
+    }
+      #toggleAuth a {
+      text-decoration: none !important;
+    }
+    #adminMessage {
+      margin-top: 1rem;
+      color: #66ffe0;
+      text-align: center;
+      min-height: 1.5em;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+    }
+    @media (max-width: 600px) {
+      .modal-content {
+        padding: 1rem;
+        min-width: 0;
+      }
+      #adminForm input {
+        max-width: 100%;
+      }
+      .action-button {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
+     main.content, .event-grid {
+        padding: 0.5rem !important;
+      }
+    }
+    .neon-text {
+      color: #66ffe0;
+      font-weight: bold;
+      text-decoration: none !important;
+    }
+  </style>
+</head>
+<body>
+  
+  <canvas id="stars-canvas"></canvas>
+  
+  <div class="page-wrapper">
+    <header>
+      <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+      <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="registration.html">Registration</a>
+        <a href="about.html">About Us</a>
+        <a href="schedule.html">Schedule</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="#" id="adminNavLink" onclick="handleAdminNavClick();return false;" style="float:right;">Admin Login</a>
+      </nav>
+    </header>
+
+    <main class="content fil">
+      <h2>Samskruthi Events</h2>
+      <div class="filter">
+    
+      </div>
+      <div class="event-grid" id="eventGrid"></div>
+
+      
+    </main>
+
+    <footer>
+      <div class="footer-left">
+        <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
+        <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
+        <a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
+      </div>
+      <div class="footer-right">
+        <iframe src="https://maps.google.com/maps?q=bmsccm&output=embed" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </footer>
+
+    <div class="footer-credit">
+      2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
+    </div>
+  </div>
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>Edit Event</h2>
+      <form id="editEventForm" onsubmit="return submitEditForm()">
+        <input type="hidden" id="editEventId">
+        <input type="text" id="editTitle" placeholder="Title" required><br>
+        <input type="text" id="editSubtitle" placeholder="Subtitle"><br>
+        <button type="submit" class="action-button">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Login/Signup Modal -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+      <h2 id="modalTitle" style="text-align:center;width:100%;">Admin Login</h2>
+      <form id="adminForm" onsubmit="return handleAdminAuth(event)">
+        <input type="text" id="adminUsername" placeholder="Email" required><br>
+        <input type="password" id="adminPassword" placeholder="Password" required><br>
+        <input type="text" id="adminSignupCode" placeholder="Secret Signup Code" style="display:none;"><br>
+        <div style="display: flex; justify-content: center; width:100%;">
+          <button type="submit" class="action-button" id="adminSubmitBtn">Login</button>
+        </div>
+      </form>
+      <p id="toggleAuth" style="text-align:center; margin-top:1rem;">
+        <a href="#" onclick="toggleAuthMode();return false;" style="text-decoration:none;">
+          <span style="color:white;">Don't have an account?</span> <span class="neon-text">Sign up</span>
+        </a>
+      </p>
+      <div id="adminMessage"></div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+  <script>
+    // Admin Auth Logic
+  let isAdmin = false;
+  let isSignup = false;
+
+  function showAdminModal() {
+    document.getElementById('adminModal').style.display = 'flex';
+    document.getElementById('modalTitle').innerText = isSignup ? 'Admin Signup' : 'Admin Login';
+    document.getElementById('adminSubmitBtn').innerText = isSignup ? 'Sign Up' : 'Login';
+    document.getElementById('toggleAuth').innerHTML = isSignup
+      ? `<a href="#" onclick="toggleAuthMode();return false;"><span style="color:white;">Already have an account?</span> <span class="neon-text">Login</span></a>`
+      : `<a href="#" onclick="toggleAuthMode();return false;"><span style="color:white;">Don't have an account?</span> <span class="neon-text">Sign up</span></a>`;
+    document.getElementById('adminMessage').textContent = '';
+    document.getElementById('adminSignupCode').style.display = isSignup ? '' : 'none';
+  }
+
+  function closeAdminModal() {
+    document.getElementById('adminModal').style.display = 'none';
+    document.getElementById('adminMessage').textContent = '';
+  }
+
+  function toggleAuthMode() {
+    isSignup = !isSignup;
+    showAdminModal();
+  }
+
+  async function handleAdminAuth(e) {
+    e.preventDefault();
+    const username = document.getElementById('adminUsername').value;
+    const password = document.getElementById('adminPassword').value;
+    const signupCode = isSignup ? document.getElementById('adminSignupCode').value : undefined;
+    if (isSignup && !signupCode) {
+      document.getElementById('adminMessage').textContent = 'Secret Signup Code is required.';
+      return false;
+    }
+    const url = isSignup
+      ? 'http://localhost:3000/api/admin/signup'
+      : 'http://localhost:3000/api/admin/login';
+    const body = isSignup
+      ? JSON.stringify({ username, password, signupCode })
+      : JSON.stringify({ username, password });
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body
+    });
+    const adminMessage = document.getElementById('adminMessage');
+    if (res.ok) {
+      if (isSignup) {
+        adminMessage.textContent = 'Signup successful! Please login.';
+        setTimeout(() => {
+          isSignup = false;
+          showAdminModal();
+          adminMessage.textContent = 'Signup successful! Please login.';
+        }, 1500);
+      } else {
+        isAdmin = true;
+        updateAdminUI();
+        adminMessage.textContent = 'Login successful!';
+        setTimeout(() => {
+          closeAdminModal();
+        }, 1500);
+      }
+    } else {
+      const data = await res.json();
+      adminMessage.textContent = data.message || 'Auth failed';
+    }
+    return false;
+  }
+
+  async function logout() {
+    await fetch('http://localhost:3000/api/admin/logout', { method: 'POST', credentials: 'include' });
+    isAdmin = false;
+    updateAdminUI();
+  }
+
+  async function checkAdminStatus() {
+    try {
+      const res = await fetch('http://localhost:3000/api/admin/status', { credentials: 'include' });
+      const data = await res.json();
+      isAdmin = data.isAdmin;
+    } catch (e) {
+      isAdmin = false;
+    }
+    updateAdminUI();
+  }
+
+  function updateAdminUI() {
+    document.querySelectorAll('.admin-controls').forEach(function (el) {
+      el.style.display = isAdmin ? 'flex' : 'none';
+    });
+    const adminNavLink = document.getElementById('adminNavLink');
+    if (adminNavLink) {
+      adminNavLink.textContent = isAdmin ? 'Logout' : 'Admin Login';
+    }
+  }
+
+  // Event CRUD Logic
+  function openEditModal(eventId, title, subtitle) {
+    document.getElementById('editEventId').value = eventId;
+    document.getElementById('editTitle').value = title;
+    document.getElementById('editSubtitle').value = subtitle || '';
+    document.getElementById('editModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('editModal').style.display = 'none';
+  }
+
+  async function submitEditForm(e) {
+    if (e) e.preventDefault();
+    const id = document.getElementById('editEventId').value;
+    const title = document.getElementById('editTitle').value.trim();
+    const subtitle = document.getElementById('editSubtitle').value.trim();
+
+    try {
+      const res = await fetch(`http://localhost:3000/api/admin/events/${id}`, { // <-- changed here
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ title, subtitle })
+      });
+
+      if (res.ok) {
+        closeModal();
+        await displayEvents();
+      } else {
+        alert('Update failed');
+      }
+    } catch (err) {
+      console.error('Error updating:', err);
+    }
+
+    return false;
+  }
+
+  async function deleteEvent(id) {
+    if (!confirm("Are you sure you want to delete this event?")) return;
+
+    try {
+      const res = await fetch(`http://localhost:3000/api/admin/events/${id}`, { // <-- changed here
+        method: 'DELETE',
+        credentials: 'include'
+      });
+
+      if (res.ok) {
+        await displayEvents();
+      } else {
+        alert('Failed to delete event');
+      }
+    } catch (err) {
+      console.error('Error deleting:', err);
+    }
+  }
+
+  function createCard(event) {
+    return `
+      <div class="card" data-day="${event.day}">
+        <h2 class="event-title" title="${event.title}">${event.title}</h2>
+        <div class="subtitle" title="${event.subtitle || ''}">${event.subtitle || '&nbsp;'}</div>
+        <div class="card-footer">
+          <p>Join us for an exciting event!</p>
+          <a href="eventDetail.html?id=${event._id}" class="learn-more">Learn More</a>
+          <div class="admin-controls" style="display:none; gap: 10px; justify-content: center;">
+            <button class="action-button" onclick="openEditModal('${event._id}', \`${event.title.replace(/`/g, "\\`")}\`, \`${(event.subtitle || '').replace(/`/g, "\\`")}\`)">Edit</button>
+            <button class="action-button" onclick="deleteEvent('${event._id}')">Delete</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  async function displayEvents(filter = "all") {
+    try {
+      const res = await fetch("http://localhost:3000/api/events");
+      const events = await res.json();
+      const container = document.getElementById("eventGrid");
+      const filtered = events.filter(function (e) {
+        return filter === "all" || e.day === filter;
+      });
+      container.innerHTML = filtered.length
+        ? filtered.map(function (event) { return createCard(event); }).join("")
+        : '<p>No events found for this selection.</p>';
+      updateAdminUI();
+    } catch (err) {
+      console.error('Fetch error:', err);
+      const container = document.getElementById("eventGrid");
+      container.innerHTML = '<p>Failed to load events. Please try again later.</p>';
+    }
+  }
+
+  function filterEvents() {
+    const filter = document.getElementById("dayFilter").value;
+    displayEvents(filter);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    checkAdminStatus();
+    displayEvents();
+  });
+
+  function handleAdminNavClick() {
+    if (isAdmin) {
+      logout();
+    } else {
+      showAdminModal();
+    }
+  }
+  </script>
+</body>
+</html>
