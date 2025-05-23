@@ -12,8 +12,34 @@ const compression = require('compression');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Security & performance middleware
-app.use(helmet());
+// ✅ Helmet CSP setup
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "default-src": ["'self'"],
+        "script-src": [
+          "'self'",
+          "https://cdnjs.cloudflare.com",
+          "'unsafe-inline'" // Only use this if necessary for inline scripts
+        ],
+        "style-src": [
+          "'self'",
+          "https://fonts.googleapis.com",
+          "https://cdnjs.cloudflare.com",
+          "'unsafe-inline'"
+        ],
+        "font-src": ["'self'", "https://fonts.gstatic.com"],
+        "img-src": ["'self'", "data:"],
+        "frame-src": ["https://maps.google.com"],
+        "connect-src": ["'self'", "http://localhost:3000"], // Allow API calls to backend
+        "script-src-attr": ["'unsafe-inline'"]
+      }
+    }
+  })
+);
+
 app.use(compression());
 
 // CORS
@@ -24,7 +50,7 @@ app.use(cors({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+app.use(express.static('public')); // ✅ make sure your static files (JS, CSS) are served correctly
 
 // Session middleware
 app.use(session({
