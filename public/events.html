@@ -224,10 +224,10 @@
       color: black;
       border: none;
       padding: 0.4rem 0.8rem;
-      border-radius: 3px;
+      border-radius: 7px;
       cursor: pointer;
       font-size: 0.9rem;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
     }
     .coordinators-container {
       display: flex;
@@ -257,10 +257,10 @@
       color: black;
       border: none;
       padding: 0.4rem 0.8rem;
-      border-radius: 3px;
+      border-radius: 7px;
       cursor: pointer;
       font-size: 0.9rem;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -361,7 +361,7 @@
         <input type="text" id="createPrize" placeholder="Prize Details">
 
         <label for="createParticipants">Participants:</label>
-        <input type="text" id="createParticipants" placeholder="Number of participants (e.g., 1-2 per team)">
+        <input type="text" id="createParticipants" placeholder="(e.g., 1-2 per team)">
 
         <label for="createTimeLimit">Time Limit:</label>
         <input type="text" id="createTimeLimit" placeholder="Time Limit (e.g., 30 minutes)">
@@ -379,7 +379,7 @@
         <button type="button" class="add-rule" onclick="addRule()">Add Rule</button>
 
         <label for="createDateTime">Date & Time:</label>
-        <input type="text" id="createDateTime" placeholder="Date & Time (e.g., March 15, 2025 - 10:00 AM)">
+        <input type="text" id="createDateTime" placeholder="(e.g.,March 15,2025-10:00 AM-1:00 PM)">
 
         <label for="createVenue">Venue:</label>
         <input type="text" id="createVenue" placeholder="Event Venue">
@@ -387,7 +387,7 @@
         <label>Coordinators:</label>
         <div class="coordinators-container" id="coordinatorsContainer">
           <div class="coordinator-input">
-            <input type="text" placeholder="Coordinator name and contact" class="coordinator-field">
+            <input type="text" placeholder="Name and Contact No." class="coordinator-field">
             <button type="button" class="remove-coordinator" onclick="removeCoordinator(this)">Remove</button>
           </div>
         </div>
