@@ -11,6 +11,10 @@ const compression = require('compression');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// ✅ Trust proxy for secure cookies over HTTPS (Required for Render)
+app.set('trust proxy', 1);
+
+// ✅ Security Headers
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -21,9 +25,9 @@ app.use(
           "'self'",
           "https://cdnjs.cloudflare.com",
           "https://maps.googleapis.com",
-          "'unsafe-inline'" // ⚠️ Remove if you can move all inline scripts to external JS files
+          "'unsafe-inline'" 
         ],
-        "script-src-attr": ["'unsafe-inline'"], // ⚠️ Required for inline HTML event handlers like onclick=""
+        "script-src-attr": ["'unsafe-inline'"], 
         "style-src": [
           "'self'",
           "https://fonts.googleapis.com",
@@ -31,11 +35,10 @@ app.use(
           "'unsafe-inline'"
         ],
         "font-src": [
-  "'self'",
-  "https://fonts.gstatic.com",
-  "https://cdnjs.cloudflare.com"
-],
-
+          "'self'",
+          "https://fonts.gstatic.com",
+          "https://cdnjs.cloudflare.com"
+        ],
         "img-src": ["'self'", "data:"],
         "frame-src": [
           "https://www.google.com",
@@ -43,9 +46,6 @@ app.use(
         ],
         "connect-src": [
           "'self'",
-          "http://localhost:3000",
-          "https://script.google.com",
-          "https://script.googleusercontent.com", 
           process.env.FRONTEND_ORIGIN || ""
         ]
       }
@@ -55,17 +55,17 @@ app.use(
 
 app.use(compression());
 
-// ✅ CORS config
+// ✅ CORS configuration
 app.use(cors({
-  origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['http://localhost:5500'],
-  credentials: true
+  origin: process.env.CORS_ORIGIN, // e.g., https://your-frontend.com
+  credentials: true // Enable sending cookies
 }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// ✅ Session setup
+// ✅ Session configuration (cross-origin compatible)
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret',
   resave: false,
@@ -75,10 +75,10 @@ app.use(session({
     collectionName: 'sessions'
   }),
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === 'production', // true on Render
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24
+    maxAge: 1000 * 60 * 60 * 24 // 1 day
   }
 }));
 

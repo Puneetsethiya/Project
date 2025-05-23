@@ -304,7 +304,7 @@
 
   async function checkAdminStatus() {
     try {
-      const res = await fetch(''+window.location.origin+'/api/admin/status', { credentials: 'include' });
+      const res = await fetch(`${window.location.origin}/api/admin/status`,  { credentials: 'include' });
       const data = await res.json();
       isAdmin = data.isAdmin;
     } catch (e) {
