@@ -22,8 +22,10 @@ app.use(
         "script-src": [
           "'self'",
           "https://cdnjs.cloudflare.com",
-          "'unsafe-inline'" // Only use this if necessary for inline scripts
+          "https://maps.googleapis.com",
+          "'unsafe-inline'" // ⚠️ Remove if you can move all inline scripts to external JS files
         ],
+        "script-src-attr": ["'unsafe-inline'"], // ⚠️ Required for inline HTML event handlers like onclick=""
         "style-src": [
           "'self'",
           "https://fonts.googleapis.com",
@@ -32,9 +34,15 @@ app.use(
         ],
         "font-src": ["'self'", "https://fonts.gstatic.com"],
         "img-src": ["'self'", "data:"],
-        "frame-src": ["https://maps.google.com"],
-        "connect-src": ["'self'", "http://localhost:3000"], // Allow API calls to backend
-        "script-src-attr": ["'unsafe-inline'"]
+        "frame-src": [
+          "https://www.google.com",
+          "https://maps.google.com"
+        ],
+        "connect-src": [
+          "'self'",
+          "http://localhost:3000",
+          process.env.FRONTEND_ORIGIN || ""
+        ]
       }
     }
   })
@@ -42,7 +50,7 @@ app.use(
 
 app.use(compression());
 
-// CORS
+// ✅ CORS config
 app.use(cors({
   origin: process.env.CORS_ORIGIN ? process.env.CORS_ORIGIN.split(',') : ['http://localhost:5500'],
   credentials: true
@@ -50,9 +58,9 @@ app.use(cors({
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // ✅ make sure your static files (JS, CSS) are served correctly
+app.use(express.static('public'));
 
-// Session middleware
+// ✅ Session setup
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret',
   resave: false,
@@ -69,7 +77,7 @@ app.use(session({
   }
 }));
 
-// MongoDB Connection
+// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => {
@@ -77,21 +85,23 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
+// ✅ Routes
 const eventsRouter = require('../routes/events');
 const adminRouter = require('../routes/admin');
 
 app.use('/api/events', eventsRouter);
 app.use('/api/admin', adminRouter);
 
-// 404 handler
+// ✅ 404 handler
 app.use((req, res) => res.status(404).json({ message: 'Not found' }));
 
-// Error handler
+// ✅ Global error handler
 app.use((err, req, res, next) => {
   console.error('Server error:', err);
   res.status(500).json({ message: 'Internal server error' });
 });
 
+// ✅ Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
