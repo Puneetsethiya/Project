@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
-<link as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/></noscript>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<link href="/css/style.css" rel="stylesheet"/>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
     .fullscreen-wrapper{height:80vh;width:90vw;display:flex;justify-content:center;align-items:center;padding:2rem;border-radius:15px;box-shadow:0 0 20px rgba(0,255,255,0.1),0 0 40px rgba(255,0,255,0.1);border:1px solid rgba(0,255,255,0.1);backdrop-filter:blur(10px)}
     .split-container{display:flex;width:100%;max-width:1300px;height:100%;border-radius:16px;overflow:hidden;box-shadow:0 0 40px rgba(255,255,255,0.08)}
     .image-panel,.events-panel{flex:1;padding:2rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
@@ -30,56 +29,56 @@
     .event-content{flex:1;display:flex;flex-direction:column;align-items:center;overflow-y:auto}
     @media (max-width:768px){.fullscreen-wrapper{height:auto;padding:1rem 0.5rem}.split-container{flex-direction:column;height:auto;max-height:none;box-shadow:none}.image-panel,.events-panel{width:100%;padding:1rem 0}.image-panel h2,.events-panel h2{font-size:1.1rem;margin-bottom:1rem;line-height:1.4}.image-panel img{margin-top:1rem;max-height:250px;width:100%;object-fit:contain}.event-grid{max-height:none;max-width:100%;grid-template-columns:1fr !important;padding-bottom:1rem;margin:0 auto}.event-grid.two-columns{grid-template-columns:1fr}.event-grid div{font-size:0.9rem;word-wrap:break-word;overflow-wrap:break-word;line-height:1.3;max-width:90%;box-sizing:border-box;white-space:normal}.proceed-button{font-size:0.85rem;padding:0.6rem 1.3rem;width:fit-content;margin:1rem auto 0}footer{margin-top:5rem}}
   </style>
-</link></head>
+</head>
 <body>
-<canvas id="stars-canvas"></canvas>
-<div class="page-wrapper">
-<header>
-<div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
-<nav id="navbar">
-<a href="/index.html">Home</a>
-<a href="/events.html">Events</a>
-<a href="/registration.html">Registration</a>
-<a href="/about.html">About Us</a>
-<a href="/schedule.html">Schedule</a>
-<a href="/contact.html">Contact Us</a>
-</nav>
-</header>
-<main class="content qr">
-<div class="fullscreen-wrapper">
-<div class="split-container">
-<div class="image-panel">
-<h2>Scan the QR Code and complete the payment using any UPI app</h2>
-<img alt="QR Code" src="/images/QRCODE.jpg"/>
-</div>
-<div class="events-panel">
-<h2>Selected Events</h2>
-<div class="event-content">
-<div class="event-grid" id="event-grid"></div>
-<div id="total-amount" style="margin-top:2rem;font-size:1.3rem;font-weight:bold;background:linear-gradient(90deg,#00ffff,#ff00ff);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 8px rgba(0,255,255,0.4),0 0 16px rgba(255,0,255,0.3);letter-spacing:0.3rem;"></div>
-</div>
-<input id="transactionId" placeholder="Enter Transaction ID" style="margin-top:1rem;padding:10px;width:80%;max-width:300px;border-radius:8px;border:1px solid #ccc;" type="text"/>
-<button class="proceed-button" onclick="goToDetails()">Complete Registration</button>
-</div>
-</div>
-</div>
-</main>
-<footer>
-<div class="footer-left">
-<a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
-<a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
-<a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
-</div>
-<div class="footer-right">
-<iframe allowfullscreen="" loading="lazy" src="https://maps.google.com/maps?q=bmsccm&amp;output=embed"></iframe>
-</div>
-</footer>
-<div class="footer-credit">
-      2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya &amp; Adithya K.P (6 BCA)
+  <canvas id="stars-canvas"></canvas>
+  <div class="page-wrapper">
+    <header>
+      <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+      <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="registration.html">Registration</a>
+        <a href="about.html">About Us</a>
+        <a href="schedule.html">Schedule</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+    </header>
+    <main class="content qr">
+      <div class="fullscreen-wrapper">
+        <div class="split-container">
+          <div class="image-panel">
+            <h2>Scan the QR Code and complete the payment using any UPI app</h2>
+            <img src="images/QRCODE.jpg" alt="QR Code">
+          </div>
+          <div class="events-panel">
+            <h2>Selected Events</h2>
+            <div class="event-content">
+              <div id="event-grid" class="event-grid"></div>
+              <div id="total-amount" style="margin-top:2rem;font-size:1.3rem;font-weight:bold;background:linear-gradient(90deg,#00ffff,#ff00ff);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 8px rgba(0,255,255,0.4),0 0 16px rgba(255,0,255,0.3);letter-spacing:0.3rem;"></div>
+            </div>
+            <input type="text" id="transactionId" placeholder="Enter Transaction ID" style="margin-top:1rem;padding:10px;width:80%;max-width:300px;border-radius:8px;border:1px solid #ccc;" />
+            <button class="proceed-button" onclick="goToDetails()">Complete Registration</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="footer-left">
+        <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
+        <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
+        <a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
+      </div>
+      <div class="footer-right">
+        <iframe src="https://maps.google.com/maps?q=bmsccm&output=embed" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </footer>
+    <div class="footer-credit">
+      2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
     </div>
-</div>
-<script src="/js/script.js"></script>
-<script>
+  </div>
+  <script src="js/script.js"></script>
+  <script>
     document.addEventListener("DOMContentLoaded", async function () {
       const eventGrid = document.getElementById("event-grid");
       const totalAmount = document.getElementById("total-amount");
@@ -92,7 +91,7 @@
       }
 
       try {
-        const res = await fetch('http://localhost:3000/api/events');
+        const res = await fetch(''+window.location.origin+'/api/events');
         const events = await res.json();
         const eventPriceMap = {};
 
@@ -194,6 +193,6 @@
       });
     }
   </script>
-<div id="toast" style="display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.92);color:#66ffe0;padding:1rem 2rem;border-radius:2rem;font-family:'Orbitron',sans-serif;font-size:1.1rem;z-index:9999;box-shadow:0 0 16px #66ffe0;text-align:center;min-width:180px;max-width:90vw;"></div>
+  <div id="toast" style="display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.92);color:#66ffe0;padding:1rem 2rem;border-radius:2rem;font-family:'Orbitron',sans-serif;font-size:1.1rem;z-index:9999;box-shadow:0 0 16px #66ffe0;text-align:center;min-width:180px;max-width:90vw;"></div>
 </body>
 </html>

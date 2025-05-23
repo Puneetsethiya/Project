@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
-<link as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/></noscript>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<link href="/css/style.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <style>
     .event-title {
       min-height: 2em; 
       font-size: 1rem;
@@ -145,78 +144,88 @@
       text-decoration: none !important;
     }
   </style>
-</link></link></head>
+</head>
 <body>
-<canvas id="stars-canvas"></canvas>
-<div class="page-wrapper">
-<header>
-<div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
-<nav id="navbar">
-<a href="/index.html">Home</a>
-<a href="/events.html">Events</a>
-<a href="/registration.html">Registration</a>
-<a href="/about.html">About Us</a>
-<a href="/schedule.html">Schedule</a>
-<a href="/contact.html">Contact Us</a>
-<a href="/#" id="adminNavLink" onclick="handleAdminNavClick();return false;" style="float:right;">Admin Login</a>
-</nav>
-</header>
-<main class="content fil">
-<h2>Samskruthi Events</h2>
-<div class="filter">
-</div>
-<div class="event-grid" id="eventGrid"></div>
-</main>
-<footer>
-<div class="footer-left">
-<a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
-<a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
-<a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
-</div>
-<div class="footer-right">
-<iframe allowfullscreen="" loading="lazy" src="https://maps.google.com/maps?q=bmsccm&amp;output=embed"></iframe>
-</div>
-</footer>
-<div class="footer-credit">
-      2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya &amp; Adithya K.P (6 BCA)
+  
+  <canvas id="stars-canvas"></canvas>
+  
+  <div class="page-wrapper">
+    <header>
+      <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+      <nav id="navbar">
+        <a href="index.html">Home</a>
+        <a href="events.html">Events</a>
+        <a href="registration.html">Registration</a>
+        <a href="about.html">About Us</a>
+        <a href="schedule.html">Schedule</a>
+        <a href="contact.html">Contact Us</a>
+        <a href="#" id="adminNavLink" onclick="handleAdminNavClick();return false;" style="float:right;">Admin Login</a>
+      </nav>
+    </header>
+
+    <main class="content fil">
+      <h2>Samskruthi Events</h2>
+      <div class="filter">
+    
+      </div>
+      <div class="event-grid" id="eventGrid"></div>
+
+      
+    </main>
+
+    <footer>
+      <div class="footer-left">
+        <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
+        <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
+        <a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
+      </div>
+      <div class="footer-right">
+        <iframe src="https://maps.google.com/maps?q=bmsccm&output=embed" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </footer>
+
+    <div class="footer-credit">
+      2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
     </div>
-</div>
-<!-- Edit Modal -->
-<div class="modal" id="editModal">
-<div class="modal-content">
-<span class="close-btn" onclick="closeModal()">×</span>
-<h2>Edit Event</h2>
-<form id="editEventForm" onsubmit="return submitEditForm()">
-<input id="editEventId" type="hidden"/>
-<input id="editTitle" placeholder="Title" required="" type="text"/><br/>
-<input id="editSubtitle" placeholder="Subtitle" type="text"/><br/>
-<button class="action-button" type="submit">Save</button>
-</form>
-</div>
-</div>
-<!-- Admin Login/Signup Modal -->
-<div class="modal" id="adminModal">
-<div class="modal-content">
-<span class="close-btn" onclick="closeAdminModal()">×</span>
-<h2 id="modalTitle" style="text-align:center;width:100%;">Admin Login</h2>
-<form id="adminForm" onsubmit="return handleAdminAuth(event)">
-<input id="adminUsername" placeholder="Email" required="" type="text"/><br/>
-<input id="adminPassword" placeholder="Password" required="" type="password"/><br/>
-<input id="adminSignupCode" placeholder="Secret Signup Code" style="display:none;" type="text"/><br/>
-<div style="display: flex; justify-content: center; width:100%;">
-<button class="action-button" id="adminSubmitBtn" type="submit">Login</button>
-</div>
-</form>
-<p id="toggleAuth" style="text-align:center; margin-top:1rem;">
-<a href="#" onclick="toggleAuthMode();return false;" style="text-decoration:none;">
-<span style="color:white;">Don't have an account?</span> <span class="neon-text">Sign up</span>
-</a>
-</p>
-<div id="adminMessage"></div>
-</div>
-</div>
-<script src="/js/script.js"></script>
-<script>
+  </div>
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h2>Edit Event</h2>
+      <form id="editEventForm" onsubmit="return submitEditForm()">
+        <input type="hidden" id="editEventId">
+        <input type="text" id="editTitle" placeholder="Title" required><br>
+        <input type="text" id="editSubtitle" placeholder="Subtitle"><br>
+        <button type="submit" class="action-button">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Login/Signup Modal -->
+  <div id="adminModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeAdminModal()">&times;</span>
+      <h2 id="modalTitle" style="text-align:center;width:100%;">Admin Login</h2>
+      <form id="adminForm" onsubmit="return handleAdminAuth(event)">
+        <input type="text" id="adminUsername" placeholder="Email" required><br>
+        <input type="password" id="adminPassword" placeholder="Password" required><br>
+        <input type="text" id="adminSignupCode" placeholder="Secret Signup Code" style="display:none;"><br>
+        <div style="display: flex; justify-content: center; width:100%;">
+          <button type="submit" class="action-button" id="adminSubmitBtn">Login</button>
+        </div>
+      </form>
+      <p id="toggleAuth" style="text-align:center; margin-top:1rem;">
+        <a href="#" onclick="toggleAuthMode();return false;" style="text-decoration:none;">
+          <span style="color:white;">Don't have an account?</span> <span class="neon-text">Sign up</span>
+        </a>
+      </p>
+      <div id="adminMessage"></div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+  <script>
     // Admin Auth Logic
   let isAdmin = false;
   let isSignup = false;
@@ -252,8 +261,8 @@
       return false;
     }
     const url = isSignup
-      ? 'http://localhost:3000/api/admin/signup'
-      : 'http://localhost:3000/api/admin/login';
+      ? ''+window.location.origin+'/api/admin/signup'
+      : ''+window.location.origin+'/api/admin/login';
     const body = isSignup
       ? JSON.stringify({ username, password, signupCode })
       : JSON.stringify({ username, password });
@@ -288,14 +297,14 @@
   }
 
   async function logout() {
-    await fetch('http://localhost:3000/api/admin/logout', { method: 'POST', credentials: 'include' });
+    await fetch(''+window.location.origin+'/api/admin/logout', { method: 'POST', credentials: 'include' });
     isAdmin = false;
     updateAdminUI();
   }
 
   async function checkAdminStatus() {
     try {
-      const res = await fetch('http://localhost:3000/api/admin/status', { credentials: 'include' });
+      const res = await fetch(''+window.location.origin+'/api/admin/status', { credentials: 'include' });
       const data = await res.json();
       isAdmin = data.isAdmin;
     } catch (e) {
@@ -333,7 +342,7 @@
     const subtitle = document.getElementById('editSubtitle').value.trim();
 
     try {
-      const res = await fetch(`http://localhost:3000/api/admin/events/${id}`, { // <-- changed here
+      const res = await fetch(`'+window.location.origin+'/api/admin/events/${id}`, { // <-- changed here
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -357,7 +366,7 @@
     if (!confirm("Are you sure you want to delete this event?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/admin/events/${id}`, { // <-- changed here
+      const res = await fetch(`'+window.location.origin+'/api/admin/events/${id}`, { // <-- changed here
         method: 'DELETE',
         credentials: 'include'
       });
@@ -391,7 +400,7 @@
 
   async function displayEvents(filter = "all") {
     try {
-      const res = await fetch("http://localhost:3000/api/events");
+      const res = await fetch("'+window.location.origin+'/api/events");
       const events = await res.json();
       const container = document.getElementById("eventGrid");
       const filtered = events.filter(function (e) {

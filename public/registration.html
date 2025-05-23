@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
-<title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
-<link href="/css/style.css" rel="stylesheet"/>
-<link as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/></noscript>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
   .fil h2{font-size:2.2rem;margin-bottom:2rem;background:linear-gradient(90deg,#66ffe0,#cc66ff);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
   .filter{margin-bottom:3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
   .filter-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
@@ -36,49 +35,49 @@
     .card{height:auto;}
   }
   </style>
-</link></head>
+</head>
 <body>
 <canvas id="stars-canvas"></canvas>
 <div class="page-wrapper">
-<header>
-<div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
-<nav id="navbar">
-<a href="/index.html">Home</a>
-<a href="/events.html">Events</a>
-<a href="/registration.html">Registration</a>
-<a href="/about.html">About Us</a>
-<a href="/schedule.html">Schedule</a>
-<a href="/contact.html">Contact Us</a>
-</nav>
-</header>
-<main class="content reg">
-<div class="fil"><h2>Select Events</h2></div>
-<div class="filter">
-<div class="filter-left">
-<label for="dayFilter">Filter by Day:</label>
-<select id="dayFilter" onchange="filterEvents()">
-<option value="all">All</option>
-<option value="Day 1">Day 1</option>
-<option value="Day 2">Day 2</option>
-</select>
-<button class="next-btn" onclick="clearAll()">Clear All</button>
-<button class="next-btn" onclick="submitEvents()">Next (<span id="count">0</span>)</button>
-</div>
-</div>
-<div class="event-grid" id="eventCards"></div>
-</main>
-<footer>
-<div class="footer-left">
-<a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
-<a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
-<a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
-</div>
-<div class="footer-right">
-<iframe allowfullscreen="" loading="lazy" src="https://maps.google.com/maps?q=bmsccm&amp;output=embed"></iframe>
-</div>
-</footer>
-<div class="footer-credit">
-    2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya &amp; Adithya K.P (6 BCA)
+  <header>
+    <div class="hamburger" id="hamburger"><div></div><div></div><div></div></div>
+    <nav id="navbar">
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="registration.html">Registration</a>
+      <a href="about.html">About Us</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+  <main class="content reg">
+    <div class="fil"><h2>Select Events</h2></div>
+    <div class="filter">
+      <div class="filter-left">
+        <label for="dayFilter">Filter by Day:</label>
+        <select id="dayFilter" onchange="filterEvents()">
+          <option value="all">All</option>
+          <option value="Day 1">Day 1</option>
+          <option value="Day 2">Day 2</option>
+        </select>
+        <button class="next-btn" onclick="clearAll()">Clear All</button>
+        <button class="next-btn" onclick="submitEvents()">Next (<span id="count">0</span>)</button>
+      </div>
+    </div>
+    <div class="event-grid" id="eventCards"></div>
+  </main>
+  <footer>
+    <div class="footer-left">
+      <a href="https://www.instagram.com/samskruthi_official_2k25/" target="_blank"><i class="fab fa-instagram"></i> SAMSKRUTHI Instagram</a>
+      <a href="https://www.instagram.com/bmsccm_off/?hl=en" target="_blank"><i class="fab fa-instagram"></i> BMSCCM Instagram</a>
+      <a href="https://www.bmsccm.ac.in/" target="_blank"><i class="fas fa-globe"></i> BMSCCM Website</a>
+    </div>
+    <div class="footer-right">
+      <iframe src="https://maps.google.com/maps?q=bmsccm&output=embed" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </footer>
+  <div class="footer-credit">
+    2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
   </div>
 </div>
 <script>
@@ -87,7 +86,7 @@ let allEvents = [];
 
 async function fetchEvents() {
   try {
-    const res = await fetch("http://localhost:3000/api/events");
+    const res = await fetch("'+window.location.origin+'/api/events");
     const data = await res.json();
     allEvents = data;
     renderEvents();
@@ -152,6 +151,6 @@ function clearAll() {
 
 fetchEvents();
 </script>
-<script src="/js/script.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

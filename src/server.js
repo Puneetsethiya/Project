@@ -13,39 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Security & performance middleware
-app.use(
-  helmet({
-    contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-        "default-src": ["'self'"],
-        "script-src": [
-          "'self'",
-          "https://cdnjs.cloudflare.com",
-          "'unsafe-inline'" // In production, use hashes instead
-        ],
-        "script-src-attr": ["'unsafe-inline'"],
-        "style-src": [
-          "'self'",
-          "https://fonts.googleapis.com",
-          "https://cdnjs.cloudflare.com",
-          "'unsafe-inline'"
-        ],
-        "font-src": ["'self'", "https://fonts.gstatic.com"],
-        "img-src": ["'self'", "data:"],
-        "connect-src": [
-          "'self'",
-          "http://localhost:3000", // Dev
-          "https://your-app.onrender.com" // Replace with your Render domain
-        ],
-        "frame-src": [
-          "https://maps.google.com",
-          "https://www.google.com"
-        ]
-      }
-    }
-  })
-);
+app.use(helmet());
 app.use(compression());
 
 // CORS

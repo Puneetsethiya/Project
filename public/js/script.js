@@ -180,7 +180,7 @@ function createCard(event) {
   `;
 }
 function displayEvents(filter = "all") {
-  fetch("http://localhost:3000/api/events")
+  fetch("'+window.location.origin+'/api/events")
     .then(res => {
       if (!res.ok) throw new Error(`Network response was not ok: ${res.statusText}`);
       return res.json();
