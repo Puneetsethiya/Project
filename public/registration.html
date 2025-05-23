@@ -86,7 +86,8 @@ let allEvents = [];
 
 async function fetchEvents() {
   try {
-    const res = await fetch("'+window.location.origin+'/api/events");
+   const res = await fetch(`${window.location.origin}/api/events`);
+
     const data = await res.json();
     allEvents = data;
     renderEvents();

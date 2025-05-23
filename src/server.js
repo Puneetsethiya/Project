@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const bcrypt = require('bcryptjs');
 const MongoStore = require('connect-mongo');
 const helmet = require('helmet');
 const compression = require('compression');
@@ -12,7 +11,6 @@ const compression = require('compression');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Helmet CSP setup
 app.use(
   helmet({
     contentSecurityPolicy: {

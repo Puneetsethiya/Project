@@ -100,7 +100,8 @@
     }
 
     async function loadSchedule() {
-      const response = await fetch(''+window.location.origin+'/api/events/schedule');
+      const response = await fetch(`${window.location.origin}/api/events/schedule`);
+
       const schedule = await response.json();
       const day1Table = document.getElementById('day1').querySelector('tbody');
       const day2Table = document.getElementById('day2').querySelector('tbody');
