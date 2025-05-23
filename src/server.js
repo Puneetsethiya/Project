@@ -22,17 +22,26 @@ app.use(
         "script-src": [
           "'self'",
           "https://cdnjs.cloudflare.com",
-          "'unsafe-inline'" // Use hash/nonce in production
+          "'unsafe-inline'" // In production, use hashes instead
         ],
         "script-src-attr": ["'unsafe-inline'"],
         "style-src": [
           "'self'",
           "https://fonts.googleapis.com",
+          "https://cdnjs.cloudflare.com",
           "'unsafe-inline'"
         ],
         "font-src": ["'self'", "https://fonts.gstatic.com"],
         "img-src": ["'self'", "data:"],
-        "frame-src": ["https://maps.google.com"]
+        "connect-src": [
+          "'self'",
+          "http://localhost:3000", // Dev
+          "https://your-app.onrender.com" // Replace with your Render domain
+        ],
+        "frame-src": [
+          "https://maps.google.com",
+          "https://www.google.com"
+        ]
       }
     }
   })
