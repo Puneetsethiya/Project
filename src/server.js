@@ -46,7 +46,8 @@ app.use(
         ],
         "connect-src": [
           "'self'",
-          process.env.FRONTEND_ORIGIN || ""
+          process.env.FRONTEND_ORIGIN || "",
+           "https://script.google.com"
         ]
       }
     }
