@@ -45,6 +45,7 @@ app.use(
           "'self'",
           "http://localhost:3000",
           "https://script.google.com",
+          "https://script.googleusercontent.com", 
           process.env.FRONTEND_ORIGIN || ""
         ]
       }
