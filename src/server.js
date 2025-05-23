@@ -47,7 +47,8 @@ app.use(
         "connect-src": [
           "'self'",
           process.env.FRONTEND_ORIGIN || "",
-           "https://script.google.com"
+           "https://script.google.com",
+           "https://script.googleusercontent.com"
         ]
       }
     }
