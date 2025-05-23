@@ -1,18 +1,19 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <meta name="theme-color" content="#000000">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <style>
+<link href="favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="apple-touch-icon.png" rel="apple-touch-icon"/>
+<meta content="#000000" name="theme-color"/>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SAMSKRUTHI - INTERCOLLEGIATE FEST</title>
+<link as="style" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;display=swap" onload="this.onload=null;this.rel='stylesheet'" rel="preload"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&amp;display=swap" rel="stylesheet"/></noscript>
+<link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<link href="/css/style.css" rel="stylesheet"/>
+<style>
     .content { margin-top: 3rem !important; padding-top: 0 !important; }
     .event-container {
       max-width: 1000px; width: 100%; margin:0 auto; padding: 2rem;
@@ -124,33 +125,32 @@
     }
     .blur-bg { filter: blur(8px); pointer-events: none; user-select: none; }
   </style>
-</head>
+</link></head>
 <body>
 <canvas id="stars-canvas"></canvas>
 <div class="page-wrapper" id="pageWrapper">
-  <div id="eventDetailsContainer"></div>
+<div id="eventDetailsContainer"></div>
 </div>
-<div id="editModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" onclick="closeEditForm()">&times;</span>
-    <h2>Edit Event</h2>
-    <form id="editForm">
-      <input type="text" id="editTitle" placeholder="Title" required><br>
-      <input type="text" id="editRegistration" placeholder="Registration Fee"><br>
-      <input type="text" id="editPrize" placeholder="Prize"><br>
-      <input type="text" id="editParticipants" placeholder="Participants"><br>
-      <input type="text" id="editTimeLimit" placeholder="Time Limit"><br>
-      <input type="text" id="editTopic" placeholder="Topic"><br>
-      <input type="text" id="editDateTime" placeholder="Date & Time"><br>
-      <input type="text" id="editVenue" placeholder="Venue"><br>
-      <textarea id="editRules" placeholder="Rules (one per line)"></textarea><br>
-      <textarea id="editCoordinators" placeholder="Coordinators (one per line)"></textarea><br>
-      <button type="submit" class="action-button">Save</button>
-    </form>
-  </div>
+<div class="modal" id="editModal">
+<div class="modal-content">
+<span class="close-btn" onclick="closeEditForm()">×</span>
+<h2>Edit Event</h2>
+<form id="editForm">
+<input id="editTitle" placeholder="Title" required="" type="text"/><br/>
+<input id="editRegistration" placeholder="Registration Fee" type="text"/><br/>
+<input id="editPrize" placeholder="Prize" type="text"/><br/>
+<input id="editParticipants" placeholder="Participants" type="text"/><br/>
+<input id="editTimeLimit" placeholder="Time Limit" type="text"/><br/>
+<input id="editTopic" placeholder="Topic" type="text"/><br/>
+<input id="editDateTime" placeholder="Date &amp; Time" type="text"/><br/>
+<input id="editVenue" placeholder="Venue" type="text"/><br/>
+<textarea id="editRules" placeholder="Rules (one per line)"></textarea><br/>
+<textarea id="editCoordinators" placeholder="Coordinators (one per line)"></textarea><br/>
+<button class="action-button" type="submit">Save</button>
+</form>
 </div>
-
-<script src="js/script.js"></script>
+</div>
+<script src="/js/script.js"></script>
 <script>
   let isAdmin = false;
   let currentEvent = null;
