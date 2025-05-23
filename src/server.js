@@ -44,6 +44,7 @@ app.use(
         "connect-src": [
           "'self'",
           "http://localhost:3000",
+          "https://script.google.com",
           process.env.FRONTEND_ORIGIN || ""
         ]
       }
