@@ -13,7 +13,30 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Security & performance middleware
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "default-src": ["'self'"],
+        "script-src": [
+          "'self'",
+          "https://cdnjs.cloudflare.com",
+          "'unsafe-inline'" // Use hash/nonce in production
+        ],
+        "script-src-attr": ["'unsafe-inline'"],
+        "style-src": [
+          "'self'",
+          "https://fonts.googleapis.com",
+          "'unsafe-inline'"
+        ],
+        "font-src": ["'self'", "https://fonts.gstatic.com"],
+        "img-src": ["'self'", "data:"],
+        "frame-src": ["https://maps.google.com"]
+      }
+    }
+  })
+);
 app.use(compression());
 
 // CORS
