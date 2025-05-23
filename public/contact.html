@@ -135,7 +135,6 @@
   <div id="toast"></div>
   <script src="js/script.js"></script>
   <script>
-    // Toast notification
     function showToast(message) {
       const toast = document.getElementById('toast');
       toast.textContent = message;
@@ -153,13 +152,11 @@
       return /Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
     }
 
-    // Form validation
     document.getElementById('contactForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
       let valid = true;
 
-      // Name validation
       const firstName = document.getElementById('firstName').value.trim();
       const firstNameError = document.getElementById('firstNameError');
       if (!firstName) {
@@ -169,7 +166,6 @@
         firstNameError.style.display = 'none';
       }
 
-      // College Name validation
       const lastName = document.getElementById('lastName').value.trim();
       const lastNameError = document.getElementById('lastNameError');
       if (!lastName) {
@@ -179,7 +175,6 @@
         lastNameError.style.display = 'none';
       }
 
-      // Email validation
       const email = document.getElementById('email').value.trim();
       const emailError = document.getElementById('emailError');
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -190,7 +185,6 @@
         emailError.style.display = 'none';
       }
 
-      // Phone validation: only 10 digits
       const phone = document.getElementById('phone').value.trim();
       const phoneError = document.getElementById('phoneError');
       if (!/^\d{10}$/.test(phone)) {
@@ -200,7 +194,6 @@
         phoneError.style.display = 'none';
       }
 
-      // Message validation
       const message = document.getElementById('message').value.trim();
       const messageError = document.getElementById('messageError');
       if (!message) {
@@ -210,17 +203,27 @@
         messageError.style.display = 'none';
       }
 
-      if (!valid) return false;
+      if (!valid) return;
 
-      // Success feedback
-      if (isMobile()) {
-        showToast('Message sent successfully!');
-      } else {
-        alert('Message sent successfully!');
-      }
+      const formData = new FormData(this);
 
-      this.reset();
-      return false;
+      fetch("https://script.google.com/macros/s/AKfycbzydH0fdsXZHvtracOpHijLz46032j0sWzyHT6jwjSeOrg52Qan8FXHdH6Da8-yVjA0/exec", {
+        method: "POST",
+        body: formData
+      })
+        .then(response => response.text())
+        .then(data => {
+          if (isMobile()) {
+            showToast("Message sent successfully!");
+          } else {
+            alert("Message sent successfully!");
+          }
+          document.getElementById("contactForm").reset();
+        })
+        .catch(error => {
+          console.error("Error!", error.message);
+          alert("There was an error sending your message.");
+        });
     });
   </script>
 </body>
