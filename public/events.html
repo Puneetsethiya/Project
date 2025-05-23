@@ -342,7 +342,7 @@
     const subtitle = document.getElementById('editSubtitle').value.trim();
 
     try {
-      const res = await fetch(`'+window.location.origin+'/api/admin/events/${id}`, { // <-- changed here
+      const res = await fetch(`${window.location.origin}/api/admin/events/${id}`, {// <-- changed here
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -366,7 +366,7 @@
     if (!confirm("Are you sure you want to delete this event?")) return;
 
     try {
-      const res = await fetch(`'+window.location.origin+'/api/admin/events/${id}`, { // <-- changed here
+       const res = await fetch(`${window.location.origin}/api/admin/events/${id}`, { // <-- changed here
         method: 'DELETE',
         credentials: 'include'
       });
@@ -400,7 +400,7 @@
 
   async function displayEvents(filter = "all") {
     try {
-      const res = await fetch("'+window.location.origin+'/api/events");
+      const res = await fetch(window.location.origin + '/api/events');
       const events = await res.json();
       const container = document.getElementById("eventGrid");
       const filtered = events.filter(function (e) {

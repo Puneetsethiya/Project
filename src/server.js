@@ -32,7 +32,12 @@ app.use(
           "https://cdnjs.cloudflare.com",
           "'unsafe-inline'"
         ],
-        "font-src": ["'self'", "https://fonts.gstatic.com"],
+        "font-src": [
+  "'self'",
+  "https://fonts.gstatic.com",
+  "https://cdnjs.cloudflare.com"
+],
+
         "img-src": ["'self'", "data:"],
         "frame-src": [
           "https://www.google.com",
