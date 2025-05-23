@@ -38,6 +38,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-content.large {
+      max-width: 600px;
     }
     @media (max-width: 500px) {
       .fil{
@@ -89,8 +94,26 @@
       width: 30%;
       margin: 0;
     }
-    #editEventForm input {
+    #editEventForm input, #createEventForm input, #createEventForm select, #createEventForm textarea {
       margin-bottom: 1rem;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.5rem;
+      border: 1px solid rgba(0, 255, 255, 0.4);
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+    }
+    #createEventForm textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    #createEventForm label {
+      color: #66ffe0;
+      margin-bottom: 0.2rem;
+      display: block;
+      font-weight: bold;
     }
     #adminForm {
       display: flex;
@@ -122,6 +145,29 @@
       font-weight: bold;
       font-family: 'Orbitron', sans-serif;
     }
+    .create-event-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #66ffe0, #cc66ff);
+      border: none;
+      color: black;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+      transition: all 0.3s ease;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .create-event-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0, 255, 255, 0.6);
+    }
     @media (max-width: 600px) {
       .modal-content {
         padding: 1rem;
@@ -137,11 +183,84 @@
      main.content, .event-grid {
         padding: 0.5rem !important;
       }
+      .create-event-btn {
+        bottom: 1rem;
+        right: 1rem;
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
     }
     .neon-text {
       color: #66ffe0;
       font-weight: bold;
       text-decoration: none !important;
+    }
+    .rules-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .rule-input {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .rule-input input {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    .remove-rule {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .add-rule {
+      background: #44ff44;
+      color: black;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    .coordinators-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .coordinator-input {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .coordinator-input input {
+      flex: 1;
+      margin-bottom: 0;
+    }
+    .remove-coordinator {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .add-coordinator {
+      background: #44ff44;
+      color: black;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
@@ -193,6 +312,12 @@
       2025 SAMSKRUTHI | Made with ❤️ by Puneet Sethiya & Adithya K.P (6 BCA)
     </div>
   </div>
+
+  <!-- Create Event Button (Only visible for admins) -->
+  <button class="create-event-btn" id="createEventBtn" onclick="openCreateModal()" title="Create New Event">
+    <i class="fas fa-plus"></i>
+  </button>
+
   <!-- Edit Modal -->
   <div id="editModal" class="modal">
     <div class="modal-content">
@@ -203,6 +328,75 @@
         <input type="text" id="editTitle" placeholder="Title" required><br>
         <input type="text" id="editSubtitle" placeholder="Subtitle"><br>
         <button type="submit" class="action-button">Save</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Event Modal -->
+  <div id="createModal" class="modal">
+    <div class="modal-content large">
+      <span class="close-btn" onclick="closeCreateModal()">&times;</span>
+      <h2>Create New Event</h2>
+      <form id="createEventForm" onsubmit="return submitCreateForm(event)">
+        <label for="createEventId">Event ID:</label>
+        <input type="number" id="createEventId" placeholder="Event ID" required>
+
+        <label for="createDay">Day:</label>
+        <select id="createDay" required>
+          <option value="">Select Day</option>
+          <option value="Day 1">Day 1</option>
+          <option value="Day 2">Day 2</option>
+        </select>
+
+        <label for="createTitle">Title:</label>
+        <input type="text" id="createTitle" placeholder="Event Title" required>
+
+        <label for="createSubtitle">Subtitle:</label>
+        <input type="text" id="createSubtitle" placeholder="Event Subtitle">
+
+        <label for="createRegistration">Registration Fee:</label>
+        <input type="number" id="createRegistration" placeholder="Registration Fee" min="0">
+
+        <label for="createPrize">Prize:</label>
+        <input type="text" id="createPrize" placeholder="Prize Details">
+
+        <label for="createParticipants">Participants:</label>
+        <input type="text" id="createParticipants" placeholder="Number of participants (e.g., 1-2 per team)">
+
+        <label for="createTimeLimit">Time Limit:</label>
+        <input type="text" id="createTimeLimit" placeholder="Time Limit (e.g., 30 minutes)">
+
+        <label for="createTopic">Topic:</label>
+        <textarea id="createTopic" placeholder="Event Topic/Description"></textarea>
+
+        <label>Rules:</label>
+        <div class="rules-container" id="rulesContainer">
+          <div class="rule-input">
+            <input type="text" placeholder="Enter rule" class="rule-field">
+            <button type="button" class="remove-rule" onclick="removeRule(this)">Remove</button>
+          </div>
+        </div>
+        <button type="button" class="add-rule" onclick="addRule()">Add Rule</button>
+
+        <label for="createDateTime">Date & Time:</label>
+        <input type="text" id="createDateTime" placeholder="Date & Time (e.g., March 15, 2025 - 10:00 AM)">
+
+        <label for="createVenue">Venue:</label>
+        <input type="text" id="createVenue" placeholder="Event Venue">
+
+        <label>Coordinators:</label>
+        <div class="coordinators-container" id="coordinatorsContainer">
+          <div class="coordinator-input">
+            <input type="text" placeholder="Coordinator name and contact" class="coordinator-field">
+            <button type="button" class="remove-coordinator" onclick="removeCoordinator(this)">Remove</button>
+          </div>
+        </div>
+        <button type="button" class="add-coordinator" onclick="addCoordinator()">Add Coordinator</button>
+
+        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+          <button type="submit" class="action-button">Create Event</button>
+          <button type="button" class="action-button" onclick="closeCreateModal()">Cancel</button>
+        </div>
       </form>
     </div>
   </div>
@@ -326,6 +520,137 @@
     if (adminNavLink) {
       adminNavLink.textContent = isAdmin ? 'Logout' : 'Admin Login';
     }
+    const createBtn = document.getElementById('createEventBtn');
+    if (createBtn) {
+      createBtn.style.display = isAdmin ? 'flex' : 'none';
+    }
+  }
+
+  // Create Event Modal Functions
+  function openCreateModal() {
+    document.getElementById('createModal').style.display = 'flex';
+  }
+
+  function closeCreateModal() {
+    document.getElementById('createModal').style.display = 'none';
+    document.getElementById('createEventForm').reset();
+    resetRulesAndCoordinators();
+  }
+
+  function resetRulesAndCoordinators() {
+    // Reset rules to one empty field
+    const rulesContainer = document.getElementById('rulesContainer');
+    rulesContainer.innerHTML = `
+      <div class="rule-input">
+        <input type="text" placeholder="Enter rule" class="rule-field">
+        <button type="button" class="remove-rule" onclick="removeRule(this)">Remove</button>
+      </div>
+    `;
+    
+    // Reset coordinators to one empty field
+    const coordinatorsContainer = document.getElementById('coordinatorsContainer');
+    coordinatorsContainer.innerHTML = `
+      <div class="coordinator-input">
+        <input type="text" placeholder="Coordinator name and contact" class="coordinator-field">
+        <button type="button" class="remove-coordinator" onclick="removeCoordinator(this)">Remove</button>
+      </div>
+    `;
+  }
+
+  function addRule() {
+    const container = document.getElementById('rulesContainer');
+    const ruleDiv = document.createElement('div');
+    ruleDiv.className = 'rule-input';
+    ruleDiv.innerHTML = `
+      <input type="text" placeholder="Enter rule" class="rule-field">
+      <button type="button" class="remove-rule" onclick="removeRule(this)">Remove</button>
+    `;
+    container.appendChild(ruleDiv);
+  }
+
+  function removeRule(button) {
+    const container = document.getElementById('rulesContainer');
+    if (container.children.length > 1) {
+      button.parentElement.remove();
+    }
+  }
+
+  function addCoordinator() {
+    const container = document.getElementById('coordinatorsContainer');
+    const coordinatorDiv = document.createElement('div');
+    coordinatorDiv.className = 'coordinator-input';
+    coordinatorDiv.innerHTML = `
+      <input type="text" placeholder="Coordinator name and contact" class="coordinator-field">
+      <button type="button" class="remove-coordinator" onclick="removeCoordinator(this)">Remove</button>
+    `;
+    container.appendChild(coordinatorDiv);
+  }
+
+  function removeCoordinator(button) {
+    const container = document.getElementById('coordinatorsContainer');
+    if (container.children.length > 1) {
+      button.parentElement.remove();
+    }
+  }
+
+  async function submitCreateForm(e) {
+    e.preventDefault();
+    
+    // Collect form data
+    const eventData = {
+      eventId: parseInt(document.getElementById('createEventId').value),
+      day: document.getElementById('createDay').value,
+      title: document.getElementById('createTitle').value,
+      subtitle: document.getElementById('createSubtitle').value || '',
+      registration: parseInt(document.getElementById('createRegistration').value) || 0,
+      prize: document.getElementById('createPrize').value || '',
+      participants: document.getElementById('createParticipants').value || '',
+      timeLimit: document.getElementById('createTimeLimit').value || '',
+      topic: document.getElementById('createTopic').value || '',
+      dateTime: document.getElementById('createDateTime').value || '',
+      venue: document.getElementById('createVenue').value || '',
+      rules: [],
+      coordinators: []
+    };
+
+    // Collect rules
+    const ruleFields = document.querySelectorAll('.rule-field');
+    ruleFields.forEach(field => {
+      if (field.value.trim()) {
+        eventData.rules.push(field.value.trim());
+      }
+    });
+
+    // Collect coordinators
+    const coordinatorFields = document.querySelectorAll('.coordinator-field');
+    coordinatorFields.forEach(field => {
+      if (field.value.trim()) {
+        eventData.coordinators.push(field.value.trim());
+      }
+    });
+
+    try {
+      const res = await fetch(`${window.location.origin}/api/admin/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(eventData)
+      });
+
+      if (res.ok) {
+        closeCreateModal();
+        await displayEvents();
+        alert('Event created successfully!');
+      } else {
+        const error = await res.json();
+        alert('Failed to create event: ' + (error.message || 'Unknown error'));
+      }
+    } catch (err) {
+      console.error('Error creating event:', err);
+      alert('Error creating event. Please try again.');
+    }
+
+    return false;
   }
 
   // Event CRUD Logic
@@ -347,7 +672,7 @@
     const subtitle = document.getElementById('editSubtitle').value.trim();
 
     try {
-      const res = await fetch(`${window.location.origin}/api/admin/events/${id}`, {// <-- changed here
+      const res = await fetch(`${window.location.origin}/api/admin/events/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -371,7 +696,7 @@
     if (!confirm("Are you sure you want to delete this event?")) return;
 
     try {
-       const res = await fetch(`${window.location.origin}/api/admin/events/${id}`, { // <-- changed here
+       const res = await fetch(`${window.location.origin}/api/admin/events/${id}`, {
         method: 'DELETE',
         credentials: 'include'
       });

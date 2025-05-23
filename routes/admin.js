@@ -44,8 +44,18 @@ router.get('/status', (req, res) => {
   res.json({ isAdmin: !!req.session.adminId });
 });
 
-// Event update/delete (admin only)
+// Event CRUD operations (admin only)
 const Event = require('../models/event');
+
+router.post('/events', isAdmin, async (req, res) => {
+  try {
+    const newEvent = new Event(req.body);
+    await newEvent.save();
+    res.status(201).json(newEvent);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
 
 router.put('/events/:id', isAdmin, async (req, res) => {
   try {
