@@ -166,7 +166,12 @@
     <main class="content fil">
       <h2>Samskruthi Events</h2>
       <div class="filter">
-    
+        <label for="dayFilter">Filter by Day:</label>
+        <select id="dayFilter" onchange="filterEvents()">
+          <option value="all">All</option>
+          <option value="Day 1">Day 1</option>
+          <option value="Day 2">Day 2</option>
+        </select>
       </div>
       <div class="event-grid" id="eventGrid"></div>
 
