@@ -378,7 +378,7 @@ const events = [
     prize: "2,000 + Trophy",
     participants: "Individual event",
     timeLimit: "4 + 1 minutes",
-    dateTime: "5th April 2025 | 2:00 PM – 3:00 PM",
+    dateTime: "5th April 2025 | 2:00 PM - 4:00 PM",
     venue: "Room No 301, BMSCCM",
     rules: [
       "Recite any 10 Shlokas from the Bhagavad Gita with meaning in English/Kannada",
