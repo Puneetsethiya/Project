@@ -153,9 +153,12 @@
       day1Table.innerHTML = '';
       day2Table.innerHTML = '';
 
+      let day1Rows = '';
+      let day2Rows = '';
+
       schedule.forEach(event => {
         const { start, end } = extractDateTimeParts(event.dateTime);
-const time = start && end ? `${formatTime12(start)} - ${formatTime12(end)}` : 'N/A';
+        const time = start && end ? `${formatTime12(start)} - ${formatTime12(end)}` : 'N/A';
         const row = `
           <tr>
             <td>${event.day || 'N/A'}</td>
@@ -165,11 +168,14 @@ const time = start && end ? `${formatTime12(start)} - ${formatTime12(end)}` : 'N
           </tr>
         `;
         if (event.day === 'Day 1') {
-          day1Table.innerHTML += row;
+          day1Rows += row;
         } else if (event.day === 'Day 2') {
-          day2Table.innerHTML += row;
+          day2Rows += row;
         }
       });
+
+      day1Table.innerHTML = day1Rows;
+      day2Table.innerHTML = day2Rows;
     }
     document.addEventListener('DOMContentLoaded', loadSchedule);
 
