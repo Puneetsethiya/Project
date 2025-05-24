@@ -849,13 +849,14 @@ function formatDateWithSuffix(dateStr) {
 
 function getSortableDateTime(dateTimeStr) {
   if (!dateTimeStr) return new Date(0);
+
   const [datePart, timePart] = dateTimeStr.split('|').map(s => s.trim());
   if (!datePart || !timePart) return new Date(0);
 
   const dateMatch = datePart.match(/^(\d+)[a-z]{2}\s+([A-Za-z]+)\s+(\d{4})$/);
   if (!dateMatch) return new Date(0);
 
-  const day = parseInt(dateMatch[1], 10);  
+  const day = parseInt(dateMatch[1], 10); 
   const month = dateMatch[2];
   const year = parseInt(dateMatch[3], 10);
 
@@ -878,6 +879,6 @@ function getSortableDateTime(dateTimeStr) {
   return new Date(year, monthNum, day, hour, minute);
 }
 
-  </script>
+  </script>f
 </body>
 </html>
