@@ -55,13 +55,7 @@
         padding: 0.7rem;
       }
     }
-    .close-btn {
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
+  
     .card-footer {
       margin-top: 0;
     }
@@ -266,7 +260,24 @@
       background-color: black;
       color: white;
     }
-
+#createStartAMPM option, #createEndAMPM option {
+  background: #000;
+  color: #fff;
+}
+.close-btn {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 2.5rem; /* Increased size */
+  cursor: pointer;
+  color: #fff;
+  z-index: 10;
+  transition: transform 0.2s;
+}
+.close-btn:hover {
+  transform: scale(1.2);
+  color: #66ffe0;
+}
 .card .subtitle {
   margin-bottom: 1.5rem;
 }

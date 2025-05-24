@@ -188,6 +188,12 @@ const time = start && end ? `${formatTime12(start)} - ${formatTime12(end)}` : 'N
         slider.style.transform = 'translateX(0)';
       }
     }
+
+    async function submitCreateForm(e) {
+  e.preventDefault();
+  await loadSchedule();
+  
+}
   </script>
 </body>
 </html>
