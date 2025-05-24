@@ -83,32 +83,49 @@
   </div>
   <script src="js/script.js" defer></script>
   <script>
-    
-    function extractFullTimeRange(dateTimeStr) {
-      if (!dateTimeStr) return 'N/A';
-      const cleaned = dateTimeStr.replace(/(\d+)(st|nd|rd|th)/g, '$1');
-      let parts = [];
-      if (cleaned.includes('|')) {
-        parts = cleaned.split('|');
-      } else if (cleaned.includes(',')) {
-        parts = cleaned.split(',');
-      } else {
-        return 'N/A';
-      }
-      const timePart = parts[1] ? parts[1].trim() : 'N/A';
-      return timePart;
+    function formatTime24to12(timeStr) {
+      if (!timeStr) return '';
+      const [h, m] = timeStr.split(':');
+      let hour = parseInt(h, 10);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      hour = hour % 12 || 12;
+      return `${hour}:${m} ${ampm}`;
+    }
+
+    function extractDateTimeParts(dateTimeStr) {
+      // Expects: YYYY-MM-DD-HH:MM-HH:MM
+      if (!dateTimeStr) return { date: '', start: '', end: '' };
+      const parts = dateTimeStr.split('-');
+      if (parts.length < 5) return { date: '', start: '', end: '' };
+      return {
+        date: parts[0] + '-' + parts[1] + '-' + parts[2],
+        start: parts[3],
+        end: parts[4]
+      };
+    }
+
+    function getSortableDateTime(dateTimeStr) {
+      // Returns a Date object for sorting
+      const parts = extractDateTimeParts(dateTimeStr);
+      if (!parts.date || !parts.start) return new Date(0);
+      return new Date(`${parts.date}T${parts.start}`);
     }
 
     async function loadSchedule() {
       const response = await fetch(`${window.location.origin}/api/events/schedule`);
+      let schedule = await response.json();
 
-      const schedule = await response.json();
+      // Sort by date and start time
+      schedule.sort((a, b) => getSortableDateTime(a.dateTime) - getSortableDateTime(b.dateTime));
+
       const day1Table = document.getElementById('day1').querySelector('tbody');
       const day2Table = document.getElementById('day2').querySelector('tbody');
       day1Table.innerHTML = '';
       day2Table.innerHTML = '';
+
       schedule.forEach(event => {
-        const time = extractFullTimeRange(event.dateTime);
+        const { start, end } = extractDateTimeParts(event.dateTime);
+        const time = start && end ? `${formatTime24to12(start)} - ${formatTime24to12(end)}` : 'N/A';
         const row = `
           <tr>
             <td>${event.day || 'N/A'}</td>

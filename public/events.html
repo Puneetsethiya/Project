@@ -342,9 +342,6 @@
       <span class="close-btn" onclick="closeCreateModal()">&times;</span>
       <h2>Create New Event</h2>
       <form id="createEventForm" onsubmit="return submitCreateForm(event)">
-        <label for="createEventId">Event ID:</label>
-        <input type="number" id="createEventId" placeholder="Event ID" required>
-
         <label for="createDay">Day:</label>
         <select id="createDay" required>
           <option value="">Select Day</option>
@@ -356,42 +353,46 @@
         <input type="text" id="createTitle" placeholder="Event Title" required>
 
         <label for="createSubtitle">Subtitle:</label>
-        <input type="text" id="createSubtitle" placeholder="Event Subtitle">
+        <input type="text" id="createSubtitle" placeholder="Event Subtitle" required>
 
         <label for="createRegistration">Registration Fee:</label>
-        <input type="number" id="createRegistration" placeholder="Registration Fee" min="0">
+        <input type="number" id="createRegistration" placeholder="Registration Fee" min="0" required>
 
         <label for="createPrize">Prize:</label>
-        <input type="text" id="createPrize" placeholder="Prize Details">
+        <input type="text" id="createPrize" placeholder="Prize Details" required>
 
         <label for="createParticipants">Participants:</label>
-        <input type="text" id="createParticipants" placeholder="(e.g., 1-2 per team)">
+        <input type="text" id="createParticipants" placeholder="(e.g., 1-2 per team)" required>
 
         <label for="createTimeLimit">Time Limit:</label>
-        <input type="text" id="createTimeLimit" placeholder="Time Limit (e.g., 30 minutes)">
+        <input type="text" id="createTimeLimit" placeholder="Time Limit (e.g., 30 minutes)" required>
 
         <label for="createTopic">Topic:</label>
-        <textarea id="createTopic" placeholder="Event Topic/Description"></textarea>
+        <textarea id="createTopic" placeholder="Event Topic/Description" required></textarea>
 
         <label>Rules:</label>
         <div class="rules-container" id="rulesContainer">
           <div class="rule-input">
-            <input type="text" placeholder="Enter rule" class="rule-field">
+            <input type="text" placeholder="Enter rule" class="rule-field" required>
             <button type="button" class="remove-rule" onclick="removeRule(this)">Remove</button>
           </div>
         </div>
         <button type="button" class="add-rule" onclick="addRule()">Add Rule</button>
 
-        <label for="createDateTime">Date & Time:</label>
-        <input type="text" id="createDateTime" placeholder="(e.g,March 15,2025-10:00AM-1:00PM)">
+        <label for="createDate">Date:</label>
+        <input type="date" id="createDate" required>
 
-        <label for="createVenue">Venue:</label>
-        <input type="text" id="createVenue" placeholder="Event Venue">
+        <label for="createStartTime">Start Time:</label>
+        <input type="time" id="createStartTime" placeholder="(eg., 10:00 am)" required>
+
+        <label for="createEndTime">End Time:</label>
+        <input type="time" id="createEndTime" placeholder="(eg., 1:00 pm)" required>
 
         <label>Coordinators:</label>
         <div class="coordinators-container" id="coordinatorsContainer">
           <div class="coordinator-input">
-            <input type="text" placeholder="Name and Contact No." class="coordinator-field">
+            <input type="text" placeholder="Name" class="coordinator-name-field" required>
+            <input type="text" placeholder="Contact No." class="coordinator-contact-field" required>
             <button type="button" class="remove-coordinator" onclick="removeCoordinator(this)">Remove</button>
           </div>
         </div>
@@ -555,7 +556,8 @@
     const coordinatorsContainer = document.getElementById('coordinatorsContainer');
     coordinatorsContainer.innerHTML = `
       <div class="coordinator-input">
-        <input type="text" placeholder="Coordinator name and contact" class="coordinator-field">
+        <input type="text" placeholder="Name" class="coordinator-name-field" required>
+        <input type="text" placeholder="Contact No." class="coordinator-contact-field" required>
         <button type="button" class="remove-coordinator" onclick="removeCoordinator(this)">Remove</button>
       </div>
     `;
@@ -584,7 +586,8 @@
     const coordinatorDiv = document.createElement('div');
     coordinatorDiv.className = 'coordinator-input';
     coordinatorDiv.innerHTML = `
-      <input type="text" placeholder="Coordinator name and contact" class="coordinator-field">
+      <input type="text" placeholder="Name" class="coordinator-name-field" required>
+      <input type="text" placeholder="Contact No." class="coordinator-contact-field" required>
       <button type="button" class="remove-coordinator" onclick="removeCoordinator(this)">Remove</button>
     `;
     container.appendChild(coordinatorDiv);
@@ -599,10 +602,15 @@
 
   async function submitCreateForm(e) {
     e.preventDefault();
-    
-    // Collect form data
+
+    // Get date and time values
+    const date = document.getElementById('createDate').value;
+    const startTime = document.getElementById('createStartTime').value;
+    const endTime = document.getElementById('createEndTime').value;
+    // Format: YYYY-MM-DD-START-END
+    const dateTime = `${date}-${startTime}-${endTime}`;
+
     const eventData = {
-      eventId: parseInt(document.getElementById('createEventId').value),
       day: document.getElementById('createDay').value,
       title: document.getElementById('createTitle').value,
       subtitle: document.getElementById('createSubtitle').value || '',
@@ -611,7 +619,7 @@
       participants: document.getElementById('createParticipants').value || '',
       timeLimit: document.getElementById('createTimeLimit').value || '',
       topic: document.getElementById('createTopic').value || '',
-      dateTime: document.getElementById('createDateTime').value || '',
+      dateTime: dateTime,
       venue: document.getElementById('createVenue').value || '',
       rules: [],
       coordinators: []
@@ -625,13 +633,16 @@
       }
     });
 
-    // Collect coordinators
-    const coordinatorFields = document.querySelectorAll('.coordinator-field');
-    coordinatorFields.forEach(field => {
-      if (field.value.trim()) {
-        eventData.coordinators.push(field.value.trim());
+    // Collect coordinators (name - contact)
+    const nameFields = document.querySelectorAll('.coordinator-name-field');
+    const contactFields = document.querySelectorAll('.coordinator-contact-field');
+    for (let i = 0; i < nameFields.length; i++) {
+      const name = nameFields[i].value.trim();
+      const contact = contactFields[i].value.trim();
+      if (name && contact) {
+        eventData.coordinators.push(`${name} - ${contact}`);
       }
-    });
+    }
 
     try {
       const res = await fetch(`${window.location.origin}/api/admin/events`, {
@@ -685,6 +696,7 @@
 
       if (res.ok) {
         closeModal();
+        alert('Event updated successfully!');
         await displayEvents();
       } else {
         alert('Update failed');
