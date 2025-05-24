@@ -794,6 +794,7 @@
     const filtered = events.filter(function (e) {
       return filter === "all" || e.day === filter;
     });
+    console.log(filtered.map(e => e.dateTime));
     container.innerHTML = filtered.length
       ? filtered.map(function (event) { return createCard(event); }).join("")
       : '<p>No events found for this selection.</p>';
