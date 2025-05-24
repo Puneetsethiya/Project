@@ -383,10 +383,25 @@
         <input type="date" id="createDate" required>
 
         <label for="createStartTime">Start Time:</label>
-        <input type="time" id="createStartTime" placeholder="(eg., 10:00 am)" required>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="createStartTime" placeholder="e.g., 10:00" required style="flex:1;">
+          <select id="createStartAMPM" required style="width:70px;">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
 
         <label for="createEndTime">End Time:</label>
-        <input type="time" id="createEndTime" placeholder="(eg., 1:00 pm)" required>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="text" id="createEndTime" placeholder="e.g., 1:00" required style="flex:1;">
+          <select id="createEndAMPM" required style="width:70px;">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+
+        <label for="createVenue">Venue:</label>
+        <input type="text" id="createVenue" placeholder="(eg.,Room No 202,BMSCCM)" required>
 
         <label>Coordinators:</label>
         <div class="coordinators-container" id="coordinatorsContainer">
@@ -604,11 +619,19 @@
     e.preventDefault();
 
     // Get date and time values
-    const date = document.getElementById('createDate').value;
-    const startTime = document.getElementById('createStartTime').value;
-    const endTime = document.getElementById('createEndTime').value;
-    // Format: YYYY-MM-DD-START-END
-    const dateTime = `${date}-${startTime}-${endTime}`;
+    const rawDate = document.getElementById('createDate').value;
+    const date = formatDateWithSuffix(rawDate);
+    let startTime = document.getElementById('createStartTime').value.trim();
+    let endTime = document.getElementById('createEndTime').value.trim();
+    const startAMPM = document.getElementById('createStartAMPM').value;
+    const endAMPM = document.getElementById('createEndAMPM').value;
+
+    // Combine time with AM/PM
+    startTime = `${startTime} ${startAMPM}`;
+    endTime = `${endTime} ${endAMPM}`;
+
+    // Format: 4th April 2025 | 9:30 AM - 12:30 PM
+    const dateTime = `${date} | ${startTime} - ${endTime}`;
 
     const eventData = {
       day: document.getElementById('createDay').value,
@@ -733,7 +756,6 @@
         <h2 class="event-title" title="${event.title}">${event.title}</h2>
         <div class="subtitle" title="${event.subtitle || ''}">${event.subtitle || '&nbsp;'}</div>
         <div class="card-footer">
-          <p>Join us for an exciting event!</p>
           <a href="eventDetail.html?id=${event._id}" class="learn-more">Learn More</a>
           <div class="admin-controls" style="display:none; gap: 10px; justify-content: center;">
             <button class="action-button" onclick="openEditModal('${event._id}', \`${event.title.replace(/`/g, "\\`")}\`, \`${(event.subtitle || '').replace(/`/g, "\\`")}\`)">Edit</button>
@@ -780,6 +802,31 @@
       showAdminModal();
     }
   }
+
+  function getDayWithSuffix(day) {
+  if (day > 3 && day < 21) return day + 'th';
+  switch (day % 10) {
+    case 1: return day + "st";
+    case 2: return day + "nd";
+    case 3: return day + "rd";
+    default: return day + "th";
+  }
+}
+
+function formatDateWithSuffix(dateStr) {
+  // dateStr: "YYYY-MM-DD"
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const [year, month, day] = dateStr.split('-');
+  const dayNum = parseInt(day, 10);
+  const monthName = months[parseInt(month, 10) - 1];
+  return `${getDayWithSuffix(dayNum)} ${monthName} ${year}`;
+}
+
+const rawDate = document.getElementById('createDate').value;
+const date = formatDateWithSuffix(rawDate);
   </script>
 </body>
 </html>

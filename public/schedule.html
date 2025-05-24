@@ -93,22 +93,52 @@
     }
 
     function extractDateTimeParts(dateTimeStr) {
-      // Expects: YYYY-MM-DD-HH:MM-HH:MM
+      // Expects: "4th April 2025 | 9:30 AM - 12:30 PM"
       if (!dateTimeStr) return { date: '', start: '', end: '' };
-      const parts = dateTimeStr.split('-');
-      if (parts.length < 5) return { date: '', start: '', end: '' };
-      return {
-        date: parts[0] + '-' + parts[1] + '-' + parts[2],
-        start: parts[3],
-        end: parts[4]
-      };
+      const [datePart, timePart] = dateTimeStr.split('|').map(s => s.trim());
+      if (!timePart) return { date: datePart || '', start: '', end: '' };
+      const [start, end] = timePart.split('-').map(s => s.trim());
+      return { date: datePart, start, end };
+    }
+
+    function formatTime12(timeStr) {
+      // Expects: "9:30 AM" or "12:30 PM"
+      return timeStr || '';
     }
 
     function getSortableDateTime(dateTimeStr) {
-      // Returns a Date object for sorting
-      const parts = extractDateTimeParts(dateTimeStr);
-      if (!parts.date || !parts.start) return new Date(0);
-      return new Date(`${parts.date}T${parts.start}`);
+      // Expects: "4th April 2025 | 9:30 AM - 12:30 PM"
+      if (!dateTimeStr) return new Date(0);
+      const [datePart, timePart] = dateTimeStr.split('|').map(s => s.trim());
+      if (!datePart || !timePart) return new Date(0);
+
+      // Remove suffix from day (e.g., "4th" -> "4")
+      const dateMatch = datePart.match(/^(\d+)[a-z]{2}\s+([A-Za-z]+)\s+(\d{4})$/);
+      if (!dateMatch) return new Date(0);
+      const day = dateMatch[1];
+      const month = dateMatch[2];
+      const year = dateMatch[3];
+
+      // Convert month name to number
+      const monthNum = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ].indexOf(month);
+      if (monthNum === -1) return new Date(0);
+
+      // Get start time (e.g., "9:30 AM")
+      const [startTime] = timePart.split('-').map(s => s.trim());
+      // Convert to 24-hour format
+      const timeMatch = startTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+      if (!timeMatch) return new Date(0);
+      let hour = parseInt(timeMatch[1], 10);
+      const minute = parseInt(timeMatch[2], 10);
+      const ampm = timeMatch[3].toUpperCase();
+      if (ampm === "PM" && hour !== 12) hour += 12;
+      if (ampm === "AM" && hour === 12) hour = 0;
+
+      // Create sortable date
+      return new Date(year, monthNum, day, hour, minute);
     }
 
     async function loadSchedule() {
@@ -125,7 +155,7 @@
 
       schedule.forEach(event => {
         const { start, end } = extractDateTimeParts(event.dateTime);
-        const time = start && end ? `${formatTime24to12(start)} - ${formatTime24to12(end)}` : 'N/A';
+const time = start && end ? `${formatTime12(start)} - ${formatTime12(end)}` : 'N/A';
         const row = `
           <tr>
             <td>${event.day || 'N/A'}</td>

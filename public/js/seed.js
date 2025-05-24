@@ -4,10 +4,8 @@ const Event = require("../../models/event"); // Adjust the path if needed
 
 const MONGO_URI = process.env.MONGO_URI;
 
-
-  const events = [
+const events = [
   {
-    eventId: 1,
     day: "Day 1",
     title: "Bulls & Bears",
     subtitle: "Mockstock",
@@ -26,7 +24,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Nikita - 9986398863", "Sai Pranav - 9071273230"]
   },
   {
-    eventId: 2,
     day: "Day 1",
     title: "Nautanki",
     subtitle: "Mime",
@@ -44,10 +41,9 @@ const MONGO_URI = process.env.MONGO_URI;
       "College ID required",
       "Judges' decision is final"
     ],
-    coordinators: ["Rachana - 8197547148)", "Janya - 8197187615"]
+    coordinators: ["Rachana - 8197547148", "Janya - 8197187615"]
   },
   {
-    eventId: 3,
     day: "Day 1",
     title: "Marketing Event",
     subtitle: "Big Pitcher",
@@ -67,7 +63,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Abhyudaya - 9353694887", "Sai Inchara - 8147763010"]
   },
   {
-    eventId: 4,
     day: "Day 1",
     title: "Battle of Words",
     subtitle: "Debate",
@@ -89,7 +84,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Charuvee - 9788656999", "Anala - 9606189673"]
   },
   {
-    eventId: 5,
     day: "Day 1",
     title: "Maathu Manthana",
     subtitle: "Kannada Debate",
@@ -98,7 +92,7 @@ const MONGO_URI = process.env.MONGO_URI;
     participants: "Two Participants per College One for and One against the topic",
     timeLimit: "Maximum of 4 minutes for speech + 1 minute for rebuttal",
     topic: "Are Students distracted from education due to social media?",
-    dateTime: "4th April 2025, 11:00 AM - 12:00 PM",
+    dateTime: "4th April 2025 | 11:00 AM - 12:00 PM",
     venue: "Room No.301, BMSCCM",
     rules: [
       "Judges' decision is final and binding"
@@ -106,14 +100,13 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Manya - 8431138735", "Pramati - 6361143590"]
   },
   {
-    eventId: 6,
     day: "Day 1",
     title: "Chanakya",
     subtitle: "Elite Executives",
     registration: 500,
     prize: "Rs.3,000 + Trophy",
     participants: "3 members (CEO, CFO, CMO roles)",
-    dateTime: "4th April 2025, 12:00 PM - 2:00 PM",
+    dateTime: "4th April 2025 | 12:00 PM - 2:00 PM",
     venue: "Room No.201, BMSCCM",
     rules: [
       "Teams undergo multiple rounds before the winner is decided",
@@ -124,14 +117,13 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Sandeep - 9740059993", "Rishi Vedanth - 6366381561"]
   },
   {
-    eventId: 7,
     day: "Day 1",
     title: "Chitratmak",
     subtitle: "Pictionary",
     registration: 500,
     prize: "Rs.2,000 + Trophy",
     participants: "2 members",
-    dateTime: "4th April 2025, 12:30 PM - 1:30 PM",
+    dateTime: "4th April 2025 | 12:30 PM - 1:30 PM",
     venue: "Room No.203, BMSCCM",
     rules: [
       "One player draws clues for teammates to guess words or phrases from chits",
@@ -142,7 +134,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Gowrav - 9538585142", "Heer - 9380785922"]
   },
   {
-    eventId: 8,
     day: "Day 1",
     title: "Chucklesome",
     subtitle: "Mad Ads",
@@ -150,7 +141,7 @@ const MONGO_URI = process.env.MONGO_URI;
     prize: "Rs.5,000 + Trophy",
     participants: "5-6 members",
     timeLimit: "Each team gets 3+1 minutes",
-    dateTime: "4th April 2025, 12:30 PM - 2:30 PM",
+    dateTime: "4th April 2025 | 12:30 PM - 2:30 PM",
     venue: "Seminar Hall, BMSCCM",
     rules: [
       "Product or item will be given on spot; teams get 20 minutes to prepare a script and act on stage",
@@ -162,7 +153,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Rohith R - 9148852356", "Charulatha - 7019951982"]
   },
   {
-    eventId: 9,
     day: "Day 1",
     title: "Codex Cronicals",
     subtitle: "",
@@ -170,7 +160,7 @@ const MONGO_URI = process.env.MONGO_URI;
     prize: "Rs.3,000 + Trophy",
     participants: "3 members",
     timeLimit: "2-3 hours",
-    dateTime: "4th April 2025, 2:00 PM - 4:00 PM",
+    dateTime: "4th April 2025 | 2:00 PM - 4:00 PM",
     venue: "Ground floor lab, BMSCCM",
     rules: [
       "No Internet or electronics allowed",
@@ -181,7 +171,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Kathireshan - 9449407372", "Pradeep - 8197370851"]
   },
   {
-    eventId: 10,
     day: "Day 1",
     title: "Art Beat",
     subtitle: "Pencil Sketching",
@@ -189,7 +178,7 @@ const MONGO_URI = process.env.MONGO_URI;
     prize: "Rs.2,000 + Trophy",
     participants: "Individual event",
     timeLimit: "1 hour (50+10 minutes)",
-    dateTime: "4th April 2025, 1:00 PM - 2:00 PM",
+    dateTime: "4th April 2025 | 1:00 PM - 2:00 PM",
     venue: "Room No.302, BMSCCM",
     rules: [
       "Participants will be provided with an A4 white sheet",
@@ -200,14 +189,13 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Kanishka Priya - 9901472913", "Mourya - 9482161446"]
   },
   {
-    eventId: 11,
     day: "Day 1",
     title: "Hog A Thon",
     subtitle: "",
     registration: 500,
     prize: "Rs.2,000 + Trophy",
     participants: "Individual event",
-    dateTime: "4th April 2025, 1:00 PM - 2:00 PM",
+    dateTime: "4th April 2025 | 1:00 PM - 2:00 PM",
     venue: "Terrace, BMSCCM",
     rules: [
       "Participants must eat only vegetarian food items provided in the challenge",
@@ -218,7 +206,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Vishwas - 6364012350", "Madhumitha - 6362092344"]
   },
   {
-    eventId: 12,
     day: "Day 1",
     title: "BGMI: E Sports",
     subtitle: "",
@@ -235,7 +222,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Suraj R - 6363340644", "Jaydeep - 7022428849"]
   },
   {
-    eventId: 13,
     day: "Day 1",
     title: "Hum & Hunch",
     subtitle: "Guess the Song",
@@ -254,7 +240,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Santhosh - 9019064187", "Kavya V - 7829150881"]
   },
   {
-    eventId: 14,
     day: "Day 1",
     title: "Danspiration",
     subtitle: "Group Dance",
@@ -274,7 +259,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Dhanush R - 8197216056", "Srujana - 9686311398", "Shreya S - 8431197164"]
   },
   {
-    eventId: 15,
     day: "Day 2",
     title: "STEP UP",
     subtitle: "Free Style Solo Dance",
@@ -295,7 +279,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Tarun C - 87922538002", "Vaibhavi - 9483866055"]
   },
   {
-    eventId: 16,
     day: "Day 2",
     title: "Poetry Writing",
     subtitle: "",
@@ -303,7 +286,7 @@ const MONGO_URI = process.env.MONGO_URI;
     prize: "₹2,000 + Trophy",
     participants: "Individual event",
     timeLimit: "45 minutes",
-    dateTime: "5th April 2025 | 10:00 AM - 11:00 PM",
+    dateTime: "5th April 2025 | 10:00 AM - 11:00 AM",
     venue: "Room no 202, BMSCCM",
     rules: [
       "Theme given on the spot",
@@ -314,14 +297,13 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Padmashree - 8050685380", "Sushanth - 9113297502"]
   },
   {
-    eventId: 17,
     day: "Day 2",
     title: "500 Mile",
     subtitle: "Start Up 500",
     registration: 500,
     prize: "Total earnings minus investment",
     participants: "2 Participants per team",
-    dateTime: "5th April 2025 | 10:00 AM – 11:00 AM",
+    dateTime: "5th April 2025 | 10:00 AM - 11:00 AM",
     venue: "Terrace, BMSCCM",
     rules: [
       "Each team gets Rs. 500 as startup capital",
@@ -330,10 +312,9 @@ const MONGO_URI = process.env.MONGO_URI;
       "College ID is mandatory",
       "Judges' decision is final"
     ],
-    coordinators: ["Sanjana Prasad: 9740599800", "Trisha B: 6361146658"]
+    coordinators: ["Sanjana Prasad - 9740599800", "Trisha B - 6361146658"]
   },
   {
-    eventId: 18,
     day: "Day 2",
     title: "Gadyapatana Spardha",
     subtitle: "",
@@ -341,7 +322,7 @@ const MONGO_URI = process.env.MONGO_URI;
     prize: "Rs.2,000 + Trophy",
     participants: "Individual event",
     timeLimit: "Maximum of two minutes per participant",
-    dateTime: "4th April 2025, 11:30 AM -12:30 PM",
+    dateTime: "5th April 2025 | 11:30 AM - 12:30 PM",
     venue: "Room No.204, BMSCCM",
     rules: [
       "Participants read paragraphs from Banabhatta's Kadambari; judged on pronunciation and fluency",
@@ -351,7 +332,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Mohith - 6360318559", "Pramati - 6360714734"]
   },
   {
-    eventId: 19,
     day: "Day 2",
     title: "Bon Appetit",
     subtitle: "Flameless Cooking",
@@ -359,7 +339,7 @@ const MONGO_URI = process.env.MONGO_URI;
     prize: "₹2,000 + Trophy",
     participants: "2 Participants per team",
     timeLimit: "1 hour",
-    dateTime: "5th April 2025 | 1:00 PM – 2:00 PM",
+    dateTime: "5th April 2025 | 1:00 PM - 2:00 PM",
     venue: "Room No 304, BMSCCM",
     rules: [
       "No precooked or precut ingredients allowed",
@@ -369,10 +349,9 @@ const MONGO_URI = process.env.MONGO_URI;
       "College ID is mandatory",
       "Judges decision is final"
     ],
-    coordinators: ["Kanishka Priya: 9901472913", "Mourya: 9482161446"]
+    coordinators: ["Kanishka Priya - 9901472913", "Mourya - 9482161446"]
   },
   {
-    eventId: 20,
     day: "Day 2",
     title: "Curio",
     subtitle: "General Quiz",
@@ -392,7 +371,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Shubhada - 8310562363", "Jishnu - 9845911397"]
   },
   {
-    eventId: 21,
     day: "Day 2",
     title: "Bhagavadgita Vaachana Spardha",
     subtitle: "",
@@ -408,10 +386,9 @@ const MONGO_URI = process.env.MONGO_URI;
       "College ID is mandatory",
       "Judges' decision is final"
     ],
-    coordinators: ["Mohith: 6360318559", "Pramati: 6360714734"]
+    coordinators: ["Mohith - 6360318559", "Pramati - 6360714734"]
   },
   {
-    eventId: 22,
     day: "Day 2",
     title: "Matrix Run",
     subtitle: "",
@@ -431,7 +408,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Punith - 7676746179", "Sanvi - 9902467119"]
   },
   {
-    eventId: 23,
     day: "Day 2",
     title: "Chitra Spardhe",
     subtitle: "",
@@ -440,7 +416,7 @@ const MONGO_URI = process.env.MONGO_URI;
     participants: "Individual event",
     timeLimit: "Maximum of 60 minutes per participant",
     topic: "Will be given 10 minutes before the competition",
-    dateTime: "5th April 2025, 3:00 PM - 4:00 PM",
+    dateTime: "5th April 2025 | 3:00 PM - 4:00 PM",
     venue: "Room No.302, BMSCCM",
     rules: [
       "Participants must bring their own Art supplies",
@@ -450,7 +426,6 @@ const MONGO_URI = process.env.MONGO_URI;
     coordinators: ["Gunashree - 9916017002", "Pramati - 8618444596"]
   },
   {
-    eventId: 24,
     day: "Day 2",
     title: "Treasure Hunt",
     subtitle: "",
@@ -463,12 +438,11 @@ const MONGO_URI = process.env.MONGO_URI;
       "College ID card is mandatory",
       "Judges decision is final and binding"
     ],
-    dateTime: "5th April 2025, 4:00 PM – 5:00 PM",
+    dateTime: "5th April 2025 | 4:00 PM - 5:00 PM",
     venue: "Ground, BMSECAC",
-    coordinators: ["Padmashree – 8050685380", "Sushanth – 9113297502"]
+    coordinators: ["Padmashree - 8050685380", "Sushanth - 9113297502"]
   },
   {
-    eventId: 25,
     day: "Day 2",
     title: "Tug of War",
     subtitle: "",
@@ -481,12 +455,11 @@ const MONGO_URI = process.env.MONGO_URI;
       "Pull only underarm",
       "Best of 3 pulls will be evaluated"
     ],
-    dateTime: "5th April 2025, 5:00 PM – 6:00 PM",
+    dateTime: "5th April 2025 | 5:00 PM - 6:00 PM",
     venue: "Ground, BMSECAC",
-    coordinators: ["Shivaprasad – 6360685357", "Divyashree – 8431746212"]
+    coordinators: ["Shivaprasad - 6360685357", "Divyashree - 8431746212"]
   },
   {
-    eventId: 26,
     day: "Day 2",
     title: "Best Physique",
     subtitle: "",
@@ -497,12 +470,11 @@ const MONGO_URI = process.env.MONGO_URI;
       "Judges' decision is final and binding",
       "College ID card is mandatory"
     ],
-    dateTime: "5th April 2025, 5:00 PM – 6:30 PM",
+    dateTime: "5th April 2025 | 5:00 PM - 6:30 PM",
     venue: "Amphitheatre, BMSCCM",
-    coordinators: ["Monish – 6366333994", "Hithesh – 7899877081", "M. Gaurav – 829636507"]
+    coordinators: ["Monish - 6366333994", "Hithesh - 7899877081", "M. Gaurav - 829636507"]
   },
   {
-    eventId: 27,
     day: "Day 2",
     title: "Vogue Alley",
     subtitle: "Fashion Show",
@@ -516,18 +488,14 @@ const MONGO_URI = process.env.MONGO_URI;
       "College ID card is mandatory",
       "Judges decision is final and binding"
     ],
-    dateTime: "5th April 2025, 6:30 PM – 8:00 PM",
+    dateTime: "5th April 2025 | 6:30 PM - 8:00 PM",
     venue: "Amphitheatre, BMSECAC",
-    coordinators: ["Sagar R – 8971105884", "Sanjana – 9902802504"]
+    coordinators: ["Sagar R - 8971105884", "Sanjana - 9902802504"]
   }
 ];
 
-
-
-
 async function seedDB() {
   try {
-    
     await mongoose.connect(MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
