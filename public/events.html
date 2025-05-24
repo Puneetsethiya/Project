@@ -848,39 +848,36 @@ function formatDateWithSuffix(dateStr) {
 
 
 function getSortableDateTime(dateTimeStr) {
-  
   if (!dateTimeStr) return new Date(0);
   const [datePart, timePart] = dateTimeStr.split('|').map(s => s.trim());
   if (!datePart || !timePart) return new Date(0);
 
- 
   const dateMatch = datePart.match(/^(\d+)[a-z]{2}\s+([A-Za-z]+)\s+(\d{4})$/);
   if (!dateMatch) return new Date(0);
-  const day = dateMatch[1];
-  const month = dateMatch[2];
-  const year = dateMatch[3];
 
-  // Convert month name to number
+  const day = parseInt(dateMatch[1], 10);  // FIXED
+  const month = dateMatch[2];
+  const year = parseInt(dateMatch[3], 10);
+
   const monthNum = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
   ].indexOf(month);
   if (monthNum === -1) return new Date(0);
 
- 
   const [startTime] = timePart.split('-').map(s => s.trim());
-  
   const timeMatch = startTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
   if (!timeMatch) return new Date(0);
+
   let hour = parseInt(timeMatch[1], 10);
   const minute = parseInt(timeMatch[2], 10);
   const ampm = timeMatch[3].toUpperCase();
   if (ampm === "PM" && hour !== 12) hour += 12;
   if (ampm === "AM" && hour === 12) hour = 0;
 
-
   return new Date(year, monthNum, day, hour, minute);
 }
+
   </script>
 </body>
 </html>
