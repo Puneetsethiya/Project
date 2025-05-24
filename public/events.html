@@ -11,7 +11,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <style>
     .event-title {
-      min-height: 2.5em; 
+      min-height: 2.3em; 
       font-size: 1rem;
       font-weight: bold;
       margin-bottom: 0.3rem;
@@ -783,23 +783,27 @@
   }
 
   async function displayEvents(filter = "all") {
-    try {
-      const res = await fetch(window.location.origin + '/api/events');
-      const events = await res.json();
-      const container = document.getElementById("eventGrid");
-      const filtered = events.filter(function (e) {
-        return filter === "all" || e.day === filter;
-      });
-      container.innerHTML = filtered.length
-        ? filtered.map(function (event) { return createCard(event); }).join("")
-        : '<p>No events found for this selection.</p>';
-      updateAdminUI();
-    } catch (err) {
-      console.error('Fetch error:', err);
-      const container = document.getElementById("eventGrid");
-      container.innerHTML = '<p>Failed to load events. Please try again later.</p>';
-    }
+  try {
+    const res = await fetch(window.location.origin + '/api/events');
+    let events = await res.json();
+
+    // Sort events by date and start time
+    events.sort((a, b) => getSortableDateTime(a.dateTime) - getSortableDateTime(b.dateTime));
+
+    const container = document.getElementById("eventGrid");
+    const filtered = events.filter(function (e) {
+      return filter === "all" || e.day === filter;
+    });
+    container.innerHTML = filtered.length
+      ? filtered.map(function (event) { return createCard(event); }).join("")
+      : '<p>No events found for this selection.</p>';
+    updateAdminUI();
+  } catch (err) {
+    console.error('Fetch error:', err);
+    const container = document.getElementById("eventGrid");
+    container.innerHTML = '<p>Failed to load events. Please try again later.</p>';
   }
+}
 
   function filterEvents() {
     const filter = document.getElementById("dayFilter").value;
@@ -841,8 +845,41 @@ function formatDateWithSuffix(dateStr) {
   return `${getDayWithSuffix(dayNum)} ${monthName} ${year}`;
 }
 
-const rawDate = document.getElementById('createDate').value;
-const date = formatDateWithSuffix(rawDate);
+
+function getSortableDateTime(dateTimeStr) {
+  
+  if (!dateTimeStr) return new Date(0);
+  const [datePart, timePart] = dateTimeStr.split('|').map(s => s.trim());
+  if (!datePart || !timePart) return new Date(0);
+
+ 
+  const dateMatch = datePart.match(/^(\d+)[a-z]{2}\s+([A-Za-z]+)\s+(\d{4})$/);
+  if (!dateMatch) return new Date(0);
+  const day = dateMatch[1];
+  const month = dateMatch[2];
+  const year = dateMatch[3];
+
+  // Convert month name to number
+  const monthNum = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ].indexOf(month);
+  if (monthNum === -1) return new Date(0);
+
+ 
+  const [startTime] = timePart.split('-').map(s => s.trim());
+  
+  const timeMatch = startTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!timeMatch) return new Date(0);
+  let hour = parseInt(timeMatch[1], 10);
+  const minute = parseInt(timeMatch[2], 10);
+  const ampm = timeMatch[3].toUpperCase();
+  if (ampm === "PM" && hour !== 12) hour += 12;
+  if (ampm === "AM" && hour === 12) hour = 0;
+
+
+  return new Date(year, monthNum, day, hour, minute);
+}
   </script>
 </body>
 </html>
