@@ -58,8 +58,13 @@ app.use(
 app.use(compression());
 
 // ✅ CORS configuration
+const isLocal = process.env.NODE_ENV !== 'production';
+const corsOrigin = isLocal
+  ? process.env.CORS_ORIGIN_LOCAL || 'http://localhost:5500'
+  : process.env.CORS_ORIGIN;
+
 app.use(cors({
-  origin: process.env.CORS_ORIGIN, // e.g., https://your-frontend.com
+  origin: corsOrigin,
   credentials: true // Enable sending cookies
 }));
 
